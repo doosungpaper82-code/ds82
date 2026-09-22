@@ -62,7 +62,7 @@ function tonPrice(p){
 }
 function priceColumns(p){
   const ton=tonPrice(p);
-  return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div><div class="ton-price"><div class="ton-money">${ton===null?'톤 단가 문의':tonFmt.format(ton)+'<small>백만원</small>'}</div><span class="unit">1 톤(1,000kg) 기준</span></div></div>`;
+  return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div><div class="ton-price"><div class="ton-money">${ton===null?'톤 단가 문의':tonFmt.format(ton)+'<small>백만원</small>'}</div><span class="unit">1톤 기준</span></div></div>`;
 }
 function updateOptions(){
   for(const key of fields){
@@ -112,7 +112,7 @@ $('list').addEventListener('click',e=>{
   if(e.target.closest('[data-reset]')){reset();return;}
   const button=e.target.closest('[data-detail]');if(!button)return;
   const p=data.find(x=>x.id===Number(button.dataset.detail));
-  const pairs=[["종이 결",paperGrain(p)],['품목대분류',p.major],['품목중분류',p.middle],['패턴',p.pattern],['색상번호',p.code],['색상명',p.color],['색상코드 원문',p.colorRaw],['규격 원문',p.spec],['평량',p.weight],['두께',p.thickness],['사이즈',p.size],['표시 기준단위',displayUnit(p)],['적재환산량',p.load],['인증',p.cert]];
+  const pairs=[["종이 결",paperGrain(p)],['품목대분류',p.major],['품목중분류',p.middle],['패턴',p.pattern],['색상번호',p.code],['색상명',p.color],['색상코드 원문',p.colorRaw],['규격 원문',p.spec],['두께',p.thickness],['적재환산량',p.load],['FSC 인증',/\bFSC\b/i.test(String(p.cert??''))?'O':'X']];
   $('detail-content').innerHTML=`<p class="eyebrow">PRODUCT DETAIL</p><h2>${esc(p.name)}</h2>${priceColumns(p)}<dl>${pairs.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v===''||v==null?'미기재':v)}</dd>`).join('')}</dl><p class="detail-note">매 단위 상품은 원본 1매 가격 × 500으로 계산한 1연(500매) 가격입니다. 다른 단위는 원본 가격을 표시합니다. 적재환산량은 가격 배수가 아닙니다.<br>톤 단가는 매 단위 상품의 평량과 가로·세로로 계산한 이론 중량 기준 환산 금액입니다. 백만원 단위로 소수점 둘째 자리까지 표시하며, 계산 정보가 부족하거나 다른 판매 단위이면 문의로 표시합니다.<br>패턴·색상은 품명과 색상코드에서 구분한 값이며, 원문을 함께 확인해 주세요.<br>부가세(VAT) 별도 금액</p>`;
   $('detail').showModal();
 });
