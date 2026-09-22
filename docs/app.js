@@ -62,7 +62,10 @@ function tonPrice(p){
 }
 function priceColumns(p){
   const ton=tonPrice(p);
-  return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div><div class="ton-price"><div class="ton-money">${ton===null?'톤 단가 문의':tonFmt.format(ton)+'<small>백만원</small>'}</div><span class="unit">1톤 기준</span></div></div>`;
+  const weight=String(p.weight??'').trim().match(/^(\d+(?:\.\d+)?)\s*g(?:\s*\/\s*(?:㎡|m²|m2))?$/i);
+  const showTon=weight&&Number(weight[1])>0;
+  const tonColumn=showTon?`<div class="ton-price"><div class="ton-money">${ton===null?'톤 단가 문의':tonFmt.format(ton)+'<small>백만원</small>'}</div><span class="unit">1톤 기준</span></div>`:'';
+  return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div>${tonColumn}</div>`;
 }
 function updateOptions(){
   for(const key of fields){
