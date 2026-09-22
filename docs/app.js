@@ -49,6 +49,21 @@ function matches(p, except){return matchesWeight(p) && matchesSize(p) && fields.
 function displayPrice(p){return typeof p.price==='number'?p.price*(String(p.unit).trim()==='매'?500:1):null;}
 function displayUnit(p){return String(p.unit).trim()==='매'?'연(500매)':p.unit||'단위 미기재';}
 function price(p){const value=displayPrice(p);return value!==null?fmt.format(value):'가격 문의';}
+const tonFmt=new Intl.NumberFormat('ko-KR',{minimumFractionDigits:2,maximumFractionDigits:2});
+function tonPrice(p){
+  if(String(p.unit).trim()!=='매'||typeof p.price!=='number'||!Number.isFinite(p.price)||p.price<0)return null;
+  const weight=String(p.weight??'').trim().match(/^(\d+(?:\.\d+)?)\s*g(?:\s*\/\s*(?:㎡|m²|m2))?$/i);
+  const [width,height]=sizeInMm(p.size);
+  if(!weight||Number(weight[1])<=0||!Number.isFinite(width)||!Number.isFinite(height)||width<=0||height<=0)return null;
+  const grams=Number(weight[1])*width*height/1e6;
+  // 1 tonne = 1,000,000 g; express the resulting won price in millions.
+  const value=p.price/grams;
+  return Number.isFinite(value)?value:null;
+}
+function priceColumns(p){
+  const ton=tonPrice(p);
+  return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div><div class="ton-price"><div class="ton-money">${ton===null?'톤 단가 문의':tonFmt.format(ton)+'<small>백만원</small>'}</div><span class="unit">1 톤(1,000kg) 기준</span></div></div>`;
+}
 function updateOptions(){
   for(const key of fields){
     const values = [...new Set(data.filter(p=>matches(p,key)).map(p=>fieldValue(p,key)))].sort((a,b)=>a===missing?1:b===missing?-1:collator.compare(a,b));
@@ -71,7 +86,7 @@ function render(){
   const pages=Math.max(1,Math.ceil(filtered.length/pageSize));page=Math.min(page,pages);
   $('count').textContent=fmt.format(filtered.length)+'개';
   $('chips').innerHTML=fields.filter(k=>state[k]).map(k=>`<button class="chip" data-remove="${k}" aria-label="${labels[k]} 조건 해제">${labels[k]} · ${esc(state[k]===missing?'미기재':state[k])} ×</button>`).join('');
-  $('list').innerHTML=filtered.length?filtered.slice((page-1)*pageSize,page*pageSize).map(p=>`<article class="product"><div><p class="breadcrumb">${esc(p.major)} &nbsp;/&nbsp; ${esc(p.middle)}</p><h3>${esc(p.name)}</h3><div class="specs"><span class="spec spec-grain">결 · ${paperGrain(p)}</span><span class="spec">${esc(p.spec)}</span>${p.colorRaw?`<span class="spec">색상 ${esc(p.colorRaw)}</span>`:''}${p.pattern?`<span class="spec">${esc(p.pattern)}</span>`:''}${p.cert?`<span class="spec spec-cert">${esc(p.cert)}</span>`:''}</div></div><div class="product-price"><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span><button class="details-button" data-detail="${p.id}" aria-label="${esc(p.name)} 상세 정보">상세 정보 ↗</button></div></article>`).join(''):'<div class="empty"><h3>조건에 맞는 상품이 없습니다.</h3><p>검색어를 줄이거나 선택한 조건을 해제해 보세요.</p><button class="primary" data-reset>검색 조건 초기화</button></div>';
+  $('list').innerHTML=filtered.length?filtered.slice((page-1)*pageSize,page*pageSize).map(p=>`<article class="product"><div><p class="breadcrumb">${esc(p.major)} &nbsp;/&nbsp; ${esc(p.middle)}</p><h3>${esc(p.name)}</h3><div class="specs"><span class="spec spec-grain">결 · ${paperGrain(p)}</span><span class="spec">${esc(p.spec)}</span>${p.colorRaw?`<span class="spec">색상 ${esc(p.colorRaw)}</span>`:''}${p.pattern?`<span class="spec">${esc(p.pattern)}</span>`:''}${p.cert?`<span class="spec spec-cert">${esc(p.cert)}</span>`:''}</div></div><div class="product-price">${priceColumns(p)}<button class="details-button" data-detail="${p.id}" aria-label="${esc(p.name)} 상세 정보">상세 정보 ↗</button></div></article>`).join(''):'<div class="empty"><h3>조건에 맞는 상품이 없습니다.</h3><p>검색어를 줄이거나 선택한 조건을 해제해 보세요.</p><button class="primary" data-reset>검색 조건 초기화</button></div>';
   $('page').textContent=filtered.length?`${page} / ${fmt.format(pages)} 페이지`:'0개 상품';
   $('prev').disabled=page<=1;$('next').disabled=page>=pages;
 }
@@ -98,7 +113,7 @@ $('list').addEventListener('click',e=>{
   const button=e.target.closest('[data-detail]');if(!button)return;
   const p=data.find(x=>x.id===Number(button.dataset.detail));
   const pairs=[["종이 결",paperGrain(p)],['품목대분류',p.major],['품목중분류',p.middle],['패턴',p.pattern],['색상번호',p.code],['색상명',p.color],['색상코드 원문',p.colorRaw],['규격 원문',p.spec],['평량',p.weight],['두께',p.thickness],['사이즈',p.size],['표시 기준단위',displayUnit(p)],['적재환산량',p.load],['인증',p.cert]];
-  $('detail-content').innerHTML=`<p class="eyebrow">PRODUCT DETAIL</p><h2>${esc(p.name)}</h2><p class="detail-money">${price(p)} <small>${typeof p.price==='number'?'원 / ':''}1 ${esc(displayUnit(p))} 기준</small></p><dl>${pairs.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v===''||v==null?'미기재':v)}</dd>`).join('')}</dl><p class="detail-note">매 단위 상품은 원본 1매 가격 × 500으로 계산한 1연(500매) 가격입니다. 다른 단위는 원본 가격을 표시합니다. 적재환산량은 가격 배수가 아닙니다.<br>패턴·색상은 품명과 색상코드에서 구분한 값이며, 원문을 함께 확인해 주세요.<br>부가세(VAT) 별도 금액</p>`;
+  $('detail-content').innerHTML=`<p class="eyebrow">PRODUCT DETAIL</p><h2>${esc(p.name)}</h2>${priceColumns(p)}<dl>${pairs.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v===''||v==null?'미기재':v)}</dd>`).join('')}</dl><p class="detail-note">매 단위 상품은 원본 1매 가격 × 500으로 계산한 1연(500매) 가격입니다. 다른 단위는 원본 가격을 표시합니다. 적재환산량은 가격 배수가 아닙니다.<br>톤 단가는 매 단위 상품의 평량과 가로·세로로 계산한 이론 중량 기준 환산 금액입니다. 백만원 단위로 소수점 둘째 자리까지 표시하며, 계산 정보가 부족하거나 다른 판매 단위이면 문의로 표시합니다.<br>패턴·색상은 품명과 색상코드에서 구분한 값이며, 원문을 함께 확인해 주세요.<br>부가세(VAT) 별도 금액</p>`;
   $('detail').showModal();
 });
 $('close-detail').addEventListener('click',()=>$('detail').close());
