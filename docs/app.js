@@ -67,9 +67,10 @@ function priceColumns(p){
   const tonColumn=showTon?`<div class="ton-price"><div class="ton-money">${ton===null?'톤 단가 문의':tonFmt.format(ton)+'<small>백만원</small>'}</div><span class="unit">1톤 기준</span></div>`:'';
   return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div>${tonColumn}</div>`;
 }
+function isJapaneseColor(value){const text=String(value??'').normalize('NFKC');return /[\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text)||(/\p{Script=Han}/u.test(text)&&!/\p{Script=Hangul}/u.test(text));}
 function updateOptions(){
   for(const key of fields){
-    const values = [...new Set(data.filter(p=>matches(p,key)).map(p=>fieldValue(p,key)))].sort((a,b)=>a===missing?1:b===missing?-1:collator.compare(a,b));
+    const values = [...new Set(data.filter(p=>matches(p,key)).map(p=>fieldValue(p,key)))].filter(v=>key!=='color'||!isJapaneseColor(v)).sort((a,b)=>a===missing?1:b===missing?-1:collator.compare(a,b));
     if(state[key] && !values.includes(state[key]))values.unshift(state[key]);
     $(key).innerHTML='<option value="">전체</option>'+values.map(v=>`<option value="${esc(v)}">${esc(v===missing?'미기재':v)}</option>`).join('');
     $(key).value=state[key]; $(key).disabled=values.length===0;
