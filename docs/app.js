@@ -85,8 +85,8 @@ function render(){
   $('weight-error').textContent=!min.validity.valid||!max.validity.valid?'0 이상의 숫자를 입력해 주세요.':min.value!==''&&max.value!==''&&min.valueAsNumber>max.valueAsNumber?'최소 평량은 최대 평량보다 작거나 같아야 합니다.':'';
   updateOptions(); filtered=data.filter(p=>matches(p));
   const sort=$('sort').value;
-  if(sort==='name')filtered.sort((a,b)=>collator.compare(a.name,b.name));
-  if(sort==='low'||sort==='high')filtered.sort((a,b)=>{const x=displayPrice(a),y=displayPrice(b);return x===null?(y===null?0:1):y===null?-1:(x-y)*(sort==='low'?1:-1);});
+  if(sort==='middle')filtered.sort((a,b)=>collator.compare(a.middle,b.middle)||collator.compare(a.name,b.name));
+  if(sort==='low'||sort==='high')filtered.sort((a,b)=>{const x=tonPrice(a),y=tonPrice(b);return x===null?(y===null?0:1):y===null?-1:(x-y)*(sort==='low'?1:-1);});
   const pages=Math.max(1,Math.ceil(filtered.length/pageSize));page=Math.min(page,pages);
   $('count').textContent=fmt.format(filtered.length)+'개';
   $('chips').innerHTML=fields.filter(k=>state[k]).map(k=>`<button class="chip" data-remove="${k}" aria-label="${labels[k]} 조건 해제">${labels[k]} · ${esc(state[k]===missing?'미기재':state[k])} ×</button>`).join('');
