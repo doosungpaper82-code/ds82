@@ -12,7 +12,8 @@ if len(raw) > 10 * 1024 * 1024:
     raise ValueError('가격표 파일은 10MB 이하여야 합니다.')
 digest = hashlib.sha256(raw).hexdigest()
 metadata = root / 'docs' / 'catalog-version.json'
-if metadata.exists() and json.loads(metadata.read_text(encoding='utf-8')).get('sha256') == digest:
+saved = json.loads(metadata.read_text(encoding='utf-8')) if metadata.exists() else {}
+if saved.get('sha256') == digest and saved.get('schemaVersion') == 2:
     print('Workbook already imported.')
     sys.exit(0)
 book = openpyxl.load_workbook(io.BytesIO(raw), read_only=True, data_only=False)
