@@ -13,7 +13,7 @@ const previous=new Map(old.map(p=>[key(p),p]));
 let changedPrices=0,changedUnits=0,overrides=0;
 const products=rows.map((r,i)=>{
   const clean=k=>String(r[k]??'').trim();
-  const p={id:i+2,name:clean('품명'),spec:clean('규격'),major:clean('품목대분류'),middle:clean('품목중분류'),price:r['표준단가'],load:r['적재환산량'],unit:clean('기준단위'),cert:clean('추가특성(인증)'),colorRaw:clean('색상코드')};
+  const p={id:i+2,productNumber:clean('품번'),internalCode:clean('품목내부코드'),name:clean('품명'),spec:clean('규격'),major:clean('품목대분류'),middle:clean('품목중분류'),price:r['표준단가'],load:r['적재환산량'],unit:clean('기준단위'),cert:clean('추가특성(인증)'),colorRaw:clean('색상코드')};
   assert(p.name&&p.unit,`${i+2}행: 품명 또는 기준단위가 비어 있습니다.`);
   assert(typeof p.price==='number'&&Number.isFinite(p.price)&&p.price>=0,`Invalid price at row ${i+2}`);
   const before=previous.get(key(p));

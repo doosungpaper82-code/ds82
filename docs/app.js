@@ -12,7 +12,7 @@ const fmt = new Intl.NumberFormat('ko-KR',{maximumFractionDigits:4});
 const missing = '__missing__';
 let page = 1, filtered = [], query = '';
 const pageSize = 15;
-const haystack = new Map(data.map(p=>[p.id,norm([p.name,p.spec,p.major,p.middle,p.colorRaw,p.code,p.color,p.pattern,p.weight,p.thickness,p.size].join(' '))]));
+const haystack = new Map(data.map(p=>[p.id,norm([p.productNumber,p.internalCode,p.name,p.spec,p.major,p.middle,p.colorRaw,p.code,p.color,p.pattern,p.weight,p.thickness,p.size].join(' '))]));
 function matchesWeight(p){
   const min=$('weight-min'),max=$('weight-max');
   if(!min.validity.valid||!max.validity.valid)return false;
