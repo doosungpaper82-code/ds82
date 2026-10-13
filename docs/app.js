@@ -65,6 +65,7 @@ function priceColumns(p){
   const weight=String(p.weight??'').trim().match(/^(\d+(?:\.\d+)?)\s*g(?:\s*\/\s*(?:㎡|m²|m2))?$/i);
   const showTon=weight&&Number(weight[1])>0;
   const tonColumn=showTon?`<div class="ton-price"><div class="ton-money">${ton===null?'톤 단가 문의':tonFmt.format(ton)+'<small>백만원</small>'}</div><span class="unit">1톤 기준</span></div>`:'';
+  if(window.staffUser&&!window.staffUser.mustChange)return `<div class="price-columns"><div><div class="money">${typeof p.price==='number'?fmt.format(p.price):'가격 문의'}${typeof p.price==='number'?`<small>원/${esc(p.unit||'단위 확인')}</small>`:''}</div><span class="unit">부가세 별도</span></div>${tonColumn}</div>`;
   return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div>${tonColumn}</div>`;
 }
 function isJapaneseColor(value){const text=String(value??'').normalize('NFKC');return /[\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text)||(/\p{Script=Han}/u.test(text)&&!/\p{Script=Hangul}/u.test(text));}
@@ -90,7 +91,7 @@ function render(){
   const pages=Math.max(1,Math.ceil(filtered.length/pageSize));page=Math.min(page,pages);
   $('count').textContent=fmt.format(filtered.length)+'개';
   $('chips').innerHTML=fields.filter(k=>state[k]).map(k=>`<button class="chip" data-remove="${k}" aria-label="${labels[k]} 조건 해제">${labels[k]} · ${esc(state[k]===missing?'미기재':state[k])} ×</button>`).join('');
-  $('list').innerHTML=filtered.length?filtered.slice((page-1)*pageSize,page*pageSize).map(p=>`<article class="product"><div><p class="breadcrumb">${esc(p.major)} &nbsp;/&nbsp; ${esc(p.middle)}</p><h3>${esc(p.name)}</h3><div class="specs"><span class="spec spec-grain">결 · ${paperGrain(p)}</span><span class="spec">${esc(p.spec||'규격 미기재')}</span>${p.itemClass?`<span class="spec spec-class">${esc(p.itemClass)}</span>`:''}${p.colorRaw?`<span class="spec">색상 ${esc(p.colorRaw)}</span>`:''}${p.pattern?`<span class="spec">${esc(p.pattern)}</span>`:''}${p.cert?`<span class="spec spec-cert">${esc(p.cert)}</span>`:''}</div></div><div class="product-price">${priceColumns(p)}<button class="details-button" data-detail="${p.id}" aria-label="${esc(p.name)} 상세 정보">상세 정보 ↗</button></div></article>`).join(''):'<div class="empty"><h3>조건에 맞는 상품이 없습니다.</h3><p>검색어를 줄이거나 선택한 조건을 해제해 보세요.</p><button class="primary" data-reset>검색 조건 초기화</button></div>';
+  $('list').innerHTML=filtered.length?filtered.slice((page-1)*pageSize,page*pageSize).map(p=>`<article class="product"><div><p class="breadcrumb">${esc(p.major)} &nbsp;/&nbsp; ${esc(p.middle)}</p><h3>${esc(p.name)}</h3><div class="specs"><span class="spec spec-grain">결 · ${paperGrain(p)}</span><span class="spec">${esc(p.spec||'규격 미기재')}</span>${p.itemClass?`<span class="spec spec-class">${esc(p.itemClass)}</span>`:''}${p.colorRaw?`<span class="spec">색상 ${esc(p.colorRaw)}</span>`:''}${p.pattern?`<span class="spec">${esc(p.pattern)}</span>`:''}${p.cert?`<span class="spec spec-cert">${esc(p.cert)}</span>`:''}</div></div><div class="product-price">${priceColumns(p)}<button class="details-button" data-detail="${p.id}" aria-label="${esc(p.name)} 상세 정보">상세 정보 ↗</button>${window.staffUser&&!window.staffUser.mustChange?`<div class="employee-actions"><button type="button" data-staff-compare="${p.id}">비교</button><button type="button" data-staff-add="${p.id}" ${typeof p.price==='number'&&p.unit?'':'disabled'}>견적 담기 +</button></div>`:''}</div></article>`).join(''):'<div class="empty"><h3>조건에 맞는 상품이 없습니다.</h3><p>검색어를 줄이거나 선택한 조건을 해제해 보세요.</p><button class="primary" data-reset>검색 조건 초기화</button></div>';
   $('page').textContent=filtered.length?`${page} / ${fmt.format(pages)} 페이지`:'0개 상품';
   $('prev').disabled=page<=1;$('next').disabled=page>=pages;
 }
@@ -133,9 +134,11 @@ mobileMedia.addEventListener('change',adaptFilters);adaptFilters();
 $('home-link').addEventListener('click',e=>{
   if(e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
   e.preventDefault();
+  window.dispatchEvent(new CustomEvent('staff-show',{detail:{view:'search'}}));
   clearTimeout(debounce);
   $('sort').value='original';
   reset();
   adaptFilters();
   window.scrollTo({top:0,left:0,behavior:'instant'});
 });
+
