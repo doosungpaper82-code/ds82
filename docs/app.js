@@ -69,13 +69,37 @@ function priceColumns(p){
   return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div>${tonColumn}</div>`;
 }
 function isJapaneseColor(value){const text=String(value??'').normalize('NFKC');return /[\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text)||(/\p{Script=Han}/u.test(text)&&!/\p{Script=Hangul}/u.test(text));}
+// Precompute immutable product metadata once; keep all facets consistent in one pass.
+const facetValues=data.map(p=>fields.map(key=>fieldValue(p,key)));
+const numericValues=data.map(p=>[parseFloat(String(p.weight).replace(/,/g,'')),...sizeInMm(p.size)]);
+const optionMarkup=new Map();
 function updateOptions(){
-  for(const key of fields){
-    const values = [...new Set(data.filter(p=>matches(p,key)).map(p=>fieldValue(p,key)))].filter(v=>key!=='color'||!isJapaneseColor(v)).sort((a,b)=>a===missing?1:b===missing?-1:collator.compare(a,b));
-    if(state[key] && !values.includes(state[key]))values.unshift(state[key]);
-    $(key).innerHTML='<option value="">전체</option>'+values.map(v=>`<option value="${esc(v)}">${esc(v===missing?'미기재':v)}</option>`).join('');
-    $(key).value=state[key]; $(key).disabled=values.length===0;
+  const bounds=['weight','width','height'].map(key=>{
+    const min=$(key+'-min'),max=$(key+'-max');
+    return {valid:min.validity.valid&&max.validity.valid,min:min.value===''?null:min.valueAsNumber,max:max.value===''?null:max.valueAsNumber};
+  });
+  const tokens=query.trim().split(/\s+/).filter(Boolean).map(norm);
+  const selected=fields.map(key=>state[key]);
+  const options=fields.map(()=>new Set());
+  const results=[];
+  for(let index=0;index<data.length;index++){
+    const p=data[index],numbers=numericValues[index];
+    if(!bounds.every((b,i)=>b.valid&&((b.min===null&&b.max===null)||(Number.isFinite(numbers[i])&&(b.min===null||numbers[i]>=b.min)&&(b.max===null||numbers[i]<=b.max)))))continue;
+    if(tokens.length&&!tokens.every(t=>haystack.get(p.id).includes(t)))continue;
+    const values=facetValues[index];let failed=-1,multiple=false;
+    for(let i=0;i<fields.length;i++)if(selected[i]&&values[i]!==selected[i]){if(failed!==-1){multiple=true;break;}failed=i;}
+    if(multiple)continue;
+    if(failed===-1){results.push(p);values.forEach((value,i)=>options[i].add(value));}
+    else options[failed].add(values[failed]);
   }
+  fields.forEach((key,i)=>{
+    const values=[...options[i]].filter(v=>key!=='color'||!isJapaneseColor(v)).sort((a,b)=>a===missing?1:b===missing?-1:collator.compare(a,b));
+    if(state[key]&&!values.includes(state[key]))values.unshift(state[key]);
+    const signature=JSON.stringify(values);
+    if(optionMarkup.get(key)!==signature){$(key).innerHTML='<option value="">전체</option>'+values.map(v=>`<option value="${esc(v)}">${esc(v===missing?'미기재':v)}</option>`).join('');optionMarkup.set(key,signature);}
+    $(key).value=state[key];$(key).disabled=values.length===0;
+  });
+  return results;
 }
 function render(){
   for(const [key,label] of [['width','가로'],['height','세로']]){
@@ -84,7 +108,7 @@ function render(){
   }
   const min=$('weight-min'),max=$('weight-max');
   $('weight-error').textContent=!min.validity.valid||!max.validity.valid?'0 이상의 숫자를 입력해 주세요.':min.value!==''&&max.value!==''&&min.valueAsNumber>max.valueAsNumber?'최소 평량은 최대 평량보다 작거나 같아야 합니다.':'';
-  updateOptions(); filtered=data.filter(p=>matches(p));
+  filtered=updateOptions();
   const sort=$('sort').value;
   if(sort==='middle')filtered.sort((a,b)=>collator.compare(a.middle,b.middle)||collator.compare(a.name,b.name));
   if(sort==='low'||sort==='high')filtered.sort((a,b)=>{const x=tonPrice(a),y=tonPrice(b);return x===null?(y===null?0:1):y===null?-1:(x-y)*(sort==='low'?1:-1);});
