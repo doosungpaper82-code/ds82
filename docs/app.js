@@ -129,3 +129,13 @@ const mobileMedia = matchMedia('(max-width:760px)');
 const adaptFilters = ()=>{$('filter-panel').open=!mobileMedia.matches;};
 mobileMedia.addEventListener('change',adaptFilters);adaptFilters();
 
+
+$('home-link').addEventListener('click',e=>{
+  if(e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+  e.preventDefault();
+  clearTimeout(debounce);
+  $('sort').value='original';
+  reset();
+  adaptFilters();
+  window.scrollTo({top:0,left:0,behavior:'instant'});
+});
