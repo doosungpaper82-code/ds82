@@ -8581,7 +8581,7 @@ function oe() {
 							/* @__PURE__ */ (0, x.jsxs)("label", { children: ["거래처", /* @__PURE__ */ (0, x.jsx)("input", {
 								value: _e,
 								onChange: (e) => ve(e.target.value),
-								required: !0,
+								placeholder: "선택 입력",
 								maxLength: 100
 							})] }),
 							/* @__PURE__ */ (0, x.jsxs)("label", { children: ["견적 유효기간", /* @__PURE__ */ (0, x.jsx)("input", {
@@ -8716,7 +8716,7 @@ function oe() {
 				/* @__PURE__ */ (0, x.jsx)("h2", { children: k.title }),
 				/* @__PURE__ */ (0, x.jsxs)("dl", { children: [
 					/* @__PURE__ */ (0, x.jsx)("dt", { children: "거래처" }),
-					/* @__PURE__ */ (0, x.jsx)("dd", { children: k.customer }),
+					/* @__PURE__ */ (0, x.jsx)("dd", { children: k.customer || "—" }),
 					/* @__PURE__ */ (0, x.jsx)("dt", { children: "담당자" }),
 					/* @__PURE__ */ (0, x.jsxs)("dd", { children: [
 						k.author,
@@ -8735,7 +8735,7 @@ function oe() {
 						/* @__PURE__ */ (0, x.jsx)("th", { children: "단가" }),
 						/* @__PURE__ */ (0, x.jsx)("th", { children: "수량" }),
 						/* @__PURE__ */ (0, x.jsx)("th", { children: "금액" })
-					] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: k.lines.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					] }) }), /* @__PURE__ */ (0, x.jsxs)("tbody", { children: [k.lines.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [e.name, /* @__PURE__ */ (0, x.jsx)("small", { children: e.spec })] }),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
 							S(e.appliedPrice),
@@ -8744,7 +8744,17 @@ function oe() {
 						] }),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [S(e.quantity), e.unit] }),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [S(e.amount), "원"] })
-					] }, t)) })] })
+					] }, t)), k.notes && /* @__PURE__ */ (0, x.jsxs)("tr", {
+						className: "invoice-notes",
+						children: [/* @__PURE__ */ (0, x.jsx)("th", {
+							scope: "row",
+							children: "비고"
+						}), /* @__PURE__ */ (0, x.jsx)("td", {
+							colSpan: 3,
+							className: "preline",
+							children: k.notes
+						})]
+					})] })] })
 				}),
 				/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "totals",
@@ -8759,8 +8769,8 @@ function oe() {
 					]
 				}),
 				/* @__PURE__ */ (0, x.jsx)("p", {
-					className: "preline",
-					children: k.notes
+					className: "invoice-caution",
+					children: "ERP 금액과 다소 차이가 발생할 수 있습니다."
 				})
 			]
 		}) : /* @__PURE__ */ (0, x.jsx)("section", {
