@@ -24,3 +24,33 @@ header{height:112px}.brand{gap:20px;min-width:0}.brand-ci{display:block;height:8
 
 /* Brand navigation keeps the existing appearance and keyboard focus visible. */
 a.brand{color:inherit;text-decoration:none}a.brand:focus-visible{outline:3px solid #8daeff;outline-offset:5px;border-radius:4px}
+
+/* Compact result cards: keep pricing context once above the list. */
+#list{gap:8px}
+#list .product{padding:14px 18px;gap:12px}
+#list .breadcrumb{margin:0 0 4px;font-size:12px;line-height:1.4}
+#list .product h3{margin:0 0 7px;line-height:1.4}
+#list .specs{gap:4px}
+#list .spec{padding:2px 6px;font-size:12px;line-height:1.5}
+#list .product-price{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 10px;min-width:0}
+#list .price-columns{grid-column:1/-1;gap:14px}
+#list .ton-price{padding-left:14px}
+#list .unit{margin-top:2px;font-size:12px}
+#list .details-button{padding:0;min-height:40px;justify-self:start;font-size:13px}
+#list .employee-actions{margin:0}
+#list .employee-actions button{min-height:40px;padding:7px 10px}
+@media(max-width:1050px){
+ #list .product{gap:8px}
+ #list .product-price{justify-self:stretch}
+ #list .price-columns{justify-content:flex-start}
+}
+@media(max-width:760px){
+ #list .product{padding:12px;gap:8px;border-radius:8px}
+ #list .product h3{font-size:15px;margin-bottom:5px}
+ #list .breadcrumb{font-size:11px;margin-bottom:3px}
+ #list .money,#list .ton-money{font-size:20px;line-height:1.3}
+ #list .money small,#list .ton-money small{font-size:12px}
+ #list .price-columns{gap:12px}
+ #list .ton-price{padding-left:12px}
+ #list .employee-actions{justify-content:flex-end}
+}
