@@ -65,8 +65,9 @@ function priceColumns(p){
   const weight=String(p.weight??'').trim().match(/^(\d+(?:\.\d+)?)\s*g(?:\s*\/\s*(?:㎡|m²|m2))?$/i);
   const showTon=weight&&Number(weight[1])>0;
   const tonColumn=showTon?`<div class="ton-price"><div class="ton-money">${ton===null?'톤 단가 문의':tonFmt.format(ton)+'<small>백만원</small>'}</div><span class="unit">1톤 기준</span></div>`:'';
-  if(window.staffUser&&!window.staffUser.mustChange)return `<div class="price-columns"><div><div class="money">${typeof p.price==='number'?fmt.format(p.price):'가격 문의'}${typeof p.price==='number'?`<small>원/${esc(p.unit||'단위 확인')}</small>`:''}</div></div>${tonColumn}</div>`;
-  return `<div class="price-columns"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div>${tonColumn}</div>`;
+  const sheetColumn=window.staffUser&&!window.staffUser.mustChange&&String(p.unit).trim()==='매'
+    ? `<div class="sheet-price"><div class="money">${typeof p.price==='number'?fmt.format(p.price):'가격 문의'}${typeof p.price==='number'?'<small>원/매</small>':''}</div><span class="unit">장단가</span></div>`:'';
+  return `<div class="price-columns${sheetColumn?' staff-prices':''}"><div><div class="money">${price(p)}${typeof p.price==='number'?'<small>원</small>':''}</div><span class="unit">1 ${esc(displayUnit(p))} 기준</span></div>${sheetColumn}${tonColumn}</div>`;
 }
 function isJapaneseColor(value){const text=String(value??'').normalize('NFKC');return /[\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text)||(/\p{Script=Han}/u.test(text)&&!/\p{Script=Hangul}/u.test(text));}
 // Precompute immutable product metadata once; keep all facets consistent in one pass.

@@ -54,3 +54,17 @@ a.brand{color:inherit;text-decoration:none}a.brand:focus-visible{outline:3px sol
  #list .ton-price{padding-left:12px}
  #list .employee-actions{justify-content:flex-end}
 }
+
+/* Staff see per-sheet pricing alongside the existing sales-unit and tonne prices. */
+.price-columns.staff-prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+.staff-prices .sheet-price{border-left:1px solid #e4e9f1;padding-left:14px}
+.staff-prices .money,.staff-prices .ton-money{overflow-wrap:anywhere;white-space:normal}
+#list .staff-prices{gap:10px}
+@media(max-width:760px){
+ #list .staff-prices{gap:8px}
+ #list .staff-prices .sheet-price,#list .staff-prices .ton-price{padding-left:8px}
+ #list .staff-prices .money,#list .staff-prices .ton-money{font-size:18px}
+ #list .staff-prices small{font-size:11px;margin-left:2px}
+ #list .staff-prices .unit{font-size:11px}
+}
+@media(max-width:380px){#list .staff-prices .money,#list .staff-prices .ton-money{font-size:16px}}
