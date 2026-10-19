@@ -92,3 +92,20 @@ a.brand{color:inherit;text-decoration:none}a.brand:focus-visible{outline:3px sol
 }
 
 #list .price-columns .unit{word-break:keep-all}
+
+/* Tighter filter spacing while keeping input targets at their existing size. */
+.filters{padding:15px}
+.filters .filter-title{margin-bottom:0}
+.filters .filter-section{padding:12px 0}
+.filters .filter-section h3{margin:0 0 8px}
+.filters label{margin:8px 0 4px}
+.filters .pair{gap:8px}
+.filters .filter-section:last-child{border-bottom:0;padding-bottom:0}
+@media(max-width:760px){
+ .filters{padding:12px}
+ .filters summary{padding-top:8px}
+ .filters .filter-section{padding:10px 0;gap:6px 8px}
+ .filters .filter-section h3{margin:0 0 3px}
+ .filters .filter-section>label{margin:0}
+ .filters .pair label{margin:0 0 4px}
+}
