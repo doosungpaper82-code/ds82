@@ -109,3 +109,6 @@ a.brand{color:inherit;text-decoration:none}a.brand:focus-visible{outline:3px sol
  .filters .filter-section>label{margin:0}
  .filters .pair label{margin:0 0 4px}
 }
+
+/* Match the sheet price caption to the ream and tonne captions on every screen. */
+#list .sheet-price .unit{display:block}
