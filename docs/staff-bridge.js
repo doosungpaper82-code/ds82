@@ -29,7 +29,7 @@ window.staffUser=null;
    const items=[['search','가격 검색'],['quote',`견적 작성 (${quoteCount})`],['saved','내 견적'],...(user.role==='admin'?[['users','직원 승인']]:[]),['password','비밀번호 변경'],['logout','로그아웃']];
    for(const [view,label] of items){const button=document.createElement('button');button.type='button';button.textContent=label;button.disabled=user.mustChange&&!['password','logout'].includes(view);button.addEventListener('click',()=>{if(view==='search')show(view);else if(view==='logout')send({action:'logout'});else{show(view);send({view});}});byId('staff-controls').append(button);}
   }
-  const note=document.querySelector('.price-note');if(note){note.replaceChildren(document.createTextNode(user&&!user.mustChange?'가격 · 연단가 / 장단가 / 톤단가 (포·권 등은 원본 단위) ':'가격 · 원 / 표시단위 (매 단위 상품은 500매 기준) '));const vat=document.createElement('span');vat.textContent='부가세(VAT) 별도 금액';note.append(vat);}
+  const note=document.querySelector('.price-note');if(note){note.replaceChildren(document.createTextNode(user&&!user.mustChange?'가격 · 장단가 / 연단가 / 톤단가 (포·권 등은 원본 단위) ':'가격 · 원 / 표시단위 (매 단위 상품은 500매 기준) '));const vat=document.createElement('span');vat.textContent='부가세(VAT) 별도 금액';note.append(vat);}
   if(previousStaff!==(!!window.staffUser&&!window.staffUser.mustChange)){if(typeof render==='function')render();const detail=byId('detail');if(detail.open)detail.close();}
  });
  byId('list').addEventListener('click',e=>{const add=e.target.closest('[data-staff-add]');if(add)send({action:'add',id:Number(add.dataset.staffAdd)});});
