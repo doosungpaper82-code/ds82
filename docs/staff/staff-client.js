@@ -44,8 +44,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		A: null,
 		T: null,
 		S: null
-	}, C = Object.prototype.hasOwnProperty;
-	function ne(e, n, r) {
+	}, ne = Object.prototype.hasOwnProperty;
+	function C(e, n, r) {
 		var i = r.ref;
 		return {
 			$$typeof: t,
@@ -56,7 +56,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		};
 	}
 	function re(e, t) {
-		return ne(e.type, t, e.props);
+		return C(e.type, t, e.props);
 	}
 	function w(e) {
 		return typeof e == "object" && !!e && e.$$typeof === t;
@@ -70,8 +70,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			return t[e];
 		});
 	}
-	var T = /\/+/g;
-	function ae(e, t) {
+	var ae = /\/+/g;
+	function T(e, t) {
 		return typeof e == "object" && e && e.key != null ? ie("" + e.key) : t.toString(36);
 	}
 	function oe(e) {
@@ -108,13 +108,13 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				case d: return c = e._init, se(c(e._payload), r, i, a, o);
 			}
 		}
-		if (c) return o = o(e), c = a === "" ? "." + ae(e, 0) : a, ee(o) ? (i = "", c != null && (i = c.replace(T, "$&/") + "/"), se(o, r, i, "", function(e) {
+		if (c) return o = o(e), c = a === "" ? "." + T(e, 0) : a, ee(o) ? (i = "", c != null && (i = c.replace(ae, "$&/") + "/"), se(o, r, i, "", function(e) {
 			return e;
-		})) : o != null && (w(o) && (o = re(o, i + (o.key == null || e && e.key === o.key ? "" : ("" + o.key).replace(T, "$&/") + "/") + c)), r.push(o)), 1;
+		})) : o != null && (w(o) && (o = re(o, i + (o.key == null || e && e.key === o.key ? "" : ("" + o.key).replace(ae, "$&/") + "/") + c)), r.push(o)), 1;
 		c = 0;
 		var l = a === "" ? "." : a + ":";
-		if (ee(e)) for (var u = 0; u < e.length; u++) a = e[u], s = l + ae(a, u), c += se(a, r, i, s, o);
-		else if (u = m(e), typeof u == "function") for (e = u.call(e), u = 0; !(a = e.next()).done;) a = a.value, s = l + ae(a, u++), c += se(a, r, i, s, o);
+		if (ee(e)) for (var u = 0; u < e.length; u++) a = e[u], s = l + T(a, u), c += se(a, r, i, s, o);
+		else if (u = m(e), typeof u == "function") for (e = u.call(e), u = 0; !(a = e.next()).done;) a = a.value, s = l + T(a, u++), c += se(a, r, i, s, o);
 		else if (s === "object") {
 			if (typeof e.then == "function") return se(oe(e), r, i, a, o);
 			throw r = String(e), Error("Objects are not valid as a React child (found: " + (r === "[object Object]" ? "object with keys {" + Object.keys(e).join(", ") + "}" : r) + "). If you meant to render a collection of children, use an array instead.");
@@ -191,14 +191,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	}, e.cloneElement = function(e, t, n) {
 		if (e == null) throw Error("The argument must be a React element, but you passed " + e + ".");
 		var r = g({}, e.props), i = e.key;
-		if (t != null) for (a in t.key !== void 0 && (i = "" + t.key), t) !C.call(t, a) || a === "key" || a === "__self" || a === "__source" || a === "ref" && t.ref === void 0 || (r[a] = t[a]);
+		if (t != null) for (a in t.key !== void 0 && (i = "" + t.key), t) !ne.call(t, a) || a === "key" || a === "__self" || a === "__source" || a === "ref" && t.ref === void 0 || (r[a] = t[a]);
 		var a = arguments.length - 2;
 		if (a === 1) r.children = n;
 		else if (1 < a) {
 			for (var o = Array(a), s = 0; s < a; s++) o[s] = arguments[s + 2];
 			r.children = o;
 		}
-		return ne(e.type, i, r);
+		return C(e.type, i, r);
 	}, e.createContext = function(e) {
 		return e = {
 			$$typeof: s,
@@ -213,7 +213,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}, e;
 	}, e.createElement = function(e, t, n) {
 		var r, i = {}, a = null;
-		if (t != null) for (r in t.key !== void 0 && (a = "" + t.key), t) C.call(t, r) && r !== "key" && r !== "__self" && r !== "__source" && (i[r] = t[r]);
+		if (t != null) for (r in t.key !== void 0 && (a = "" + t.key), t) ne.call(t, r) && r !== "key" && r !== "__self" && r !== "__source" && (i[r] = t[r]);
 		var o = arguments.length - 2;
 		if (o === 1) i.children = n;
 		else if (1 < o) {
@@ -221,7 +221,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			i.children = s;
 		}
 		if (e && e.defaultProps) for (r in o = e.defaultProps, o) i[r] === void 0 && (i[r] = o[r]);
-		return ne(e, a, i);
+		return C(e, a, i);
 	}, e.createRef = function() {
 		return { current: null };
 	}, e.forwardRef = function(e) {
@@ -351,17 +351,17 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (h = !1, b(e), !m) if (n(c) !== null) m = !0, ee || (ee = !0, w());
 		else {
 			var t = n(l);
-			t !== null && ae(x, t.startTime - e);
+			t !== null && T(x, t.startTime - e);
 		}
 	}
-	var ee = !1, te = -1, S = 5, C = -1;
-	function ne() {
-		return g ? !0 : !(e.unstable_now() - C < S);
+	var ee = !1, te = -1, S = 5, ne = -1;
+	function C() {
+		return g ? !0 : !(e.unstable_now() - ne < S);
 	}
 	function re() {
 		if (g = !1, ee) {
 			var t = e.unstable_now();
-			C = t;
+			ne = t;
 			var i = !0;
 			try {
 				a: {
@@ -369,7 +369,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 					var a = f;
 					try {
 						b: {
-							for (b(t), d = n(c); d !== null && !(d.expirationTime > t && ne());) {
+							for (b(t), d = n(c); d !== null && !(d.expirationTime > t && C());) {
 								var o = d.callback;
 								if (typeof o == "function") {
 									d.callback = null, f = d.priorityLevel;
@@ -385,7 +385,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 							if (d !== null) i = !0;
 							else {
 								var u = n(l);
-								u !== null && ae(x, u.startTime - t), i = !1;
+								u !== null && T(x, u.startTime - t), i = !1;
 							}
 						}
 						break a;
@@ -404,14 +404,14 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		y(re);
 	};
 	else if (typeof MessageChannel < "u") {
-		var ie = new MessageChannel(), T = ie.port2;
+		var ie = new MessageChannel(), ae = ie.port2;
 		ie.port1.onmessage = re, w = function() {
-			T.postMessage(null);
+			ae.postMessage(null);
 		};
 	} else w = function() {
 		_(re, 0);
 	};
-	function ae(t, n) {
+	function T(t, n) {
 		te = _(function() {
 			t(e.unstable_now());
 		}, n);
@@ -480,8 +480,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			startTime: a,
 			expirationTime: s,
 			sortIndex: -1
-		}, a > o ? (r.sortIndex = a, t(l, r), n(c) === null && r === n(l) && (h ? (v(te), te = -1) : h = !0, ae(x, a - o))) : (r.sortIndex = s, t(c, r), m || p || (m = !0, ee || (ee = !0, w()))), r;
-	}, e.unstable_shouldYield = ne, e.unstable_wrapCallback = function(e) {
+		}, a > o ? (r.sortIndex = a, t(l, r), n(c) === null && r === n(l) && (h ? (v(te), te = -1) : h = !0, T(x, a - o))) : (r.sortIndex = s, t(c, r), m || p || (m = !0, ee || (ee = !0, w()))), r;
+	}, e.unstable_shouldYield = C, e.unstable_wrapCallback = function(e) {
 		var t = f;
 		return function() {
 			var n = f;
@@ -728,9 +728,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		}
 		return null;
 	}
-	var h = Object.assign, g = Symbol.for("react.element"), _ = Symbol.for("react.transitional.element"), v = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), b = Symbol.for("react.strict_mode"), x = Symbol.for("react.profiler"), ee = Symbol.for("react.consumer"), te = Symbol.for("react.context"), S = Symbol.for("react.forward_ref"), C = Symbol.for("react.suspense"), ne = Symbol.for("react.suspense_list"), re = Symbol.for("react.memo"), w = Symbol.for("react.lazy"), ie = Symbol.for("react.activity"), T = Symbol.for("react.memo_cache_sentinel"), ae = Symbol.iterator;
+	var h = Object.assign, g = Symbol.for("react.element"), _ = Symbol.for("react.transitional.element"), v = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), b = Symbol.for("react.strict_mode"), x = Symbol.for("react.profiler"), ee = Symbol.for("react.consumer"), te = Symbol.for("react.context"), S = Symbol.for("react.forward_ref"), ne = Symbol.for("react.suspense"), C = Symbol.for("react.suspense_list"), re = Symbol.for("react.memo"), w = Symbol.for("react.lazy"), ie = Symbol.for("react.activity"), ae = Symbol.for("react.memo_cache_sentinel"), T = Symbol.iterator;
 	function oe(e) {
-		return typeof e != "object" || !e ? null : (e = ae && e[ae] || e["@@iterator"], typeof e == "function" ? e : null);
+		return typeof e != "object" || !e ? null : (e = T && e[T] || e["@@iterator"], typeof e == "function" ? e : null);
 	}
 	var se = Symbol.for("react.client.reference");
 	function ce(e) {
@@ -741,8 +741,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 			case y: return "Fragment";
 			case x: return "Profiler";
 			case b: return "StrictMode";
-			case C: return "Suspense";
-			case ne: return "SuspenseList";
+			case ne: return "Suspense";
+			case C: return "SuspenseList";
 			case ie: return "Activity";
 		}
 		if (typeof e == "object") switch (e.$$typeof) {
@@ -2031,8 +2031,8 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				s = 8, a |= 24;
 				break;
 			case x: return e = gi(12, n, t, a | 2), e.elementType = x, e.lanes = o, e;
-			case C: return e = gi(13, n, t, a), e.elementType = C, e.lanes = o, e;
-			case ne: return e = gi(19, n, t, a), e.elementType = ne, e.lanes = o, e;
+			case ne: return e = gi(13, n, t, a), e.elementType = ne, e.lanes = o, e;
+			case C: return e = gi(19, n, t, a), e.elementType = C, e.lanes = o, e;
 			default:
 				if (typeof e == "object" && e) switch (e.$$typeof) {
 					case te:
@@ -2944,7 +2944,7 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 		if (t ??= {
 			data: [],
 			index: 0
-		}, n === null && (n = Fo(), F.updateQueue = n), n.memoCache = t, n = t.data[t.index], n === void 0) for (n = t.data[t.index] = Array(e), r = 0; r < e; r++) n[r] = T;
+		}, n === null && (n = Fo(), F.updateQueue = n), n.memoCache = t, n = t.data[t.index], n === void 0) for (n = t.data[t.index] = Array(e), r = 0; r < e; r++) n[r] = ae;
 		return t.index++, n;
 	}
 	function zo(e, t) {
@@ -8096,56 +8096,33 @@ function S({ quotes: e, busy: t, onOpen: n, onDelete: r }) {
 	}, e.id))] }) : /* @__PURE__ */ (0, x.jsx)("p", { children: "저장한 견적이 없습니다." });
 }
 //#endregion
+//#region lib/quote-defaults.ts
+function ne(e = /* @__PURE__ */ new Date()) {
+	let t = new Intl.DateTimeFormat("en-US", {
+		timeZone: "Asia/Seoul",
+		year: "numeric",
+		month: "numeric"
+	}).formatToParts(e), n = Number(t.find((e) => e.type === "year").value), r = Number(t.find((e) => e.type === "month").value), i = new Date(Date.UTC(n, r, 0)).getUTCDate();
+	return `${n}-${String(r).padStart(2, "0")}-${i}`;
+}
+//#endregion
 //#region app/portal.tsx
-var C = (e) => new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 4 }).format(e), ne = (e) => String(e ?? "").normalize("NFKC").replace(/\s/g, "").toLowerCase(), re = "doosung-staff-session", w = (e, t) => window.dispatchEvent(new CustomEvent(e, { detail: t })), ie = () => typeof window < "u" && !!window.STAFF_API_BASE;
+var C = (e) => new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 4 }).format(e), re = (e) => String(e ?? "").normalize("NFKC").toLowerCase().replace(/[\s\p{Pd}]+/gu, "").replace(/이보드/g, "e보드"), w = "doosung-staff-session", ie = (e, t) => window.dispatchEvent(new CustomEvent(e, { detail: t })), ae = () => typeof window < "u" && !!window.STAFF_API_BASE;
 async function T(e, t) {
 	let n = await fetch((window.STAFF_API_BASE || "") + "/api/" + e, {
 		method: t === void 0 ? "GET" : "POST",
-		credentials: ie() ? "omit" : "same-origin",
+		credentials: ae() ? "omit" : "same-origin",
 		headers: {
 			...t === void 0 ? {} : { "Content-Type": "application/json" },
-			...ie() && sessionStorage.getItem(re) ? { Authorization: "Bearer " + sessionStorage.getItem(re) } : {}
+			...ae() && sessionStorage.getItem(w) ? { Authorization: "Bearer " + sessionStorage.getItem(w) } : {}
 		},
 		body: t === void 0 ? void 0 : JSON.stringify(t)
 	}), r = await n.json();
-	if (!n.ok) throw n.status === 401 && ie() && (sessionStorage.removeItem(re), w("staff-expired")), Error(r.error || "요청을 처리하지 못했습니다.");
-	return ie() && (e === "login" && r.token && sessionStorage.setItem(re, r.token), (e === "logout" || e === "password") && sessionStorage.removeItem(re)), r;
-}
-function ae(e) {
-	let t = (e) => "\"" + (/^[=+@\-\t\r\n]/.test(String(e)) ? "'" : "") + String(e ?? "").replace(/"/g, "\"\"") + "\"", n = [
-		["견적명", e.title],
-		["거래처", e.customer],
-		["담당자", e.author],
-		["유효기간", e.validUntil],
-		[],
-		[
-			"상품",
-			"규격",
-			"단위",
-			"수량",
-			"표준 단가",
-			"적용 단가",
-			"금액"
-		],
-		...e.lines.map((e) => [
-			e.name,
-			e.spec,
-			e.unit,
-			e.quantity,
-			e.sourcePrice,
-			e.appliedPrice,
-			e.amount
-		]),
-		[],
-		["공급가액", e.subtotal],
-		["부가세", e.vat],
-		["합계", e.total],
-		["비고", e.notes]
-	], r = URL.createObjectURL(new Blob(["﻿" + n.map((e) => e.map(t).join(",")).join("\r\n")], { type: "text/csv;charset=utf-8;" })), i = document.createElement("a");
-	i.href = r, i.download = "두성종이_견적.csv", i.click(), setTimeout(() => URL.revokeObjectURL(r), 1e3);
+	if (!n.ok) throw n.status === 401 && ae() && (sessionStorage.removeItem(w), ie("staff-expired")), Error(r.error || "요청을 처리하지 못했습니다.");
+	return ae() && (e === "login" && r.token && sessionStorage.setItem(w, r.token), (e === "logout" || e === "password") && sessionStorage.removeItem(w)), r;
 }
 function oe() {
-	let [e, t] = (0, b.useState)(null), [n, r] = (0, b.useState)(!1), [i, a] = (0, b.useState)(!1), [o, s] = (0, b.useState)("login"), [c, l] = (0, b.useState)(!1), [u, d] = (0, b.useState)(""), [f, p] = (0, b.useState)("search"), [m, h] = (0, b.useState)([]), [g, _] = (0, b.useState)(!1), [v, y] = (0, b.useState)(""), [ee, oe] = (0, b.useState)(""), [se, ce] = (0, b.useState)(""), [le, E] = (0, b.useState)(""), [D, ue] = (0, b.useState)(1), [de, fe] = (0, b.useState)("original"), [O, k] = (0, b.useState)([]), [A, pe] = (0, b.useState)([]), [me, he] = (0, b.useState)("종이 구매 견적"), [ge, _e] = (0, b.useState)(""), [ve, ye] = (0, b.useState)(""), [be, xe] = (0, b.useState)(""), [Se, Ce] = (0, b.useState)([]), [we, Te] = (0, b.useState)(null), [Ee, De] = (0, b.useState)([]), [Oe, ke] = (0, b.useState)(""), Ae = async (e) => {
+	let [e, t] = (0, b.useState)(null), [n, r] = (0, b.useState)(!1), [i, a] = (0, b.useState)(!1), [o, s] = (0, b.useState)("login"), [c, l] = (0, b.useState)(!1), [u, d] = (0, b.useState)(""), [f, p] = (0, b.useState)("search"), [m, h] = (0, b.useState)([]), [g, _] = (0, b.useState)(!1), [v, y] = (0, b.useState)(""), [ee, oe] = (0, b.useState)(""), [se, ce] = (0, b.useState)(""), [le, E] = (0, b.useState)(""), [D, ue] = (0, b.useState)(1), [de, fe] = (0, b.useState)("original"), [O, k] = (0, b.useState)([]), [A, pe] = (0, b.useState)("종이 구매 견적"), [me, he] = (0, b.useState)(""), [ge, _e] = (0, b.useState)(() => ne()), [ve, ye] = (0, b.useState)(""), [be, xe] = (0, b.useState)([]), [Se, Ce] = (0, b.useState)(null), [we, Te] = (0, b.useState)([]), [Ee, De] = (0, b.useState)(""), Oe = async (e) => {
 		l(!0), d("");
 		try {
 			await e();
@@ -8155,15 +8132,15 @@ function oe() {
 			l(!1);
 		}
 	};
-	async function je() {
+	async function ke() {
 		let e = await T("me");
-		t(e.user), a(e.setupAllowed), e.setupAllowed && s("setup"), r(!0), e.user?.mustChange ? (p("password"), ie() && w("staff-show", { view: "password" })) : e.user && (h((await T("catalog")).products), _(!0), ie() && w("staff-show", { view: "search" }));
+		t(e.user), a(e.setupAllowed), e.setupAllowed && s("setup"), r(!0), e.user?.mustChange ? (p("password"), ae() && ie("staff-show", { view: "password" })) : e.user && (h((await T("catalog")).products), _(!0), ae() && ie("staff-show", { view: "search" }));
 	}
 	(0, b.useEffect)(() => {
-		Ae(je);
+		Oe(ke);
 	}, []);
-	let Me = (0, b.useMemo)(() => {
-		let e = v.split(/\s+/).filter(Boolean).map(ne), t = m.filter((t) => (!ee || t.major === ee) && (!se || t.middle === se) && (!le || t.itemClass === le) && e.every((e) => ne([
+	let Ae = (0, b.useMemo)(() => {
+		let e = v.split(/\s+/).filter(Boolean).map(re), t = m.filter((t) => (!ee || t.major === ee) && (!se || t.middle === se) && (!le || t.itemClass === le) && e.every((e) => re([
 			t.name,
 			t.spec,
 			t.productNumber,
@@ -8181,18 +8158,16 @@ function oe() {
 		se,
 		le,
 		de
-	]), Ne = m.filter((e) => O.includes(e.id)), Pe = A.reduce((e, t) => e + (Number.isFinite(t.quantity * t.appliedPrice) ? Math.round(t.quantity * t.appliedPrice) : 0), 0), Fe = Math.round(Pe * .1), Ie = (e) => {
-		d(""), O.includes(e) ? k(O.filter((t) => t !== e)) : O.length < 4 ? k([...O, e]) : d("한 번에 최대 4개 상품을 비교할 수 있습니다.");
-	}, Le = (e) => {
-		if (A.some((t) => t.id === e.id)) {
+	]), je = O.reduce((e, t) => e + (Number.isFinite(t.quantity * t.appliedPrice) ? Math.round(t.quantity * t.appliedPrice) : 0), 0), Me = Math.round(je * .1), Ne = (e) => {
+		if (O.some((t) => t.id === e.id)) {
 			d("이미 견적에 담긴 상품입니다.");
 			return;
 		}
-		if (A.length >= 50) {
+		if (O.length >= 50) {
 			d("견적은 최대 50개 상품까지 담을 수 있습니다.");
 			return;
 		}
-		pe([...A, {
+		k([...O, {
 			id: e.id,
 			name: e.name,
 			spec: e.spec,
@@ -8202,70 +8177,65 @@ function oe() {
 			quantity: 1,
 			amount: e.price
 		}]), d("견적에 상품을 담았습니다.");
-	}, Re = (e) => typeof e.price == "number" ? `${C(e.price)}원/${e.unit || "단위 확인"}` : "가격 문의", ze = (e) => typeof e.price == "number" && Number.isFinite(e.price) && e.price >= 0 && !!e.unit;
-	async function Be(e) {
-		if (ie() && e === "search") {
-			w("staff-show", { view: "search" });
+	}, Pe = (e) => typeof e.price == "number" ? `${C(e.price)}원/${e.unit || "단위 확인"}` : "가격 문의", Fe = (e) => typeof e.price == "number" && Number.isFinite(e.price) && e.price >= 0 && !!e.unit;
+	async function Ie(e) {
+		if (ae() && e === "search") {
+			ie("staff-show", { view: "search" });
 			return;
 		}
-		Te(null), p(e), d(""), e === "saved" && Ce(await T("quotes")), e === "users" && De(await T("users"));
+		Ce(null), p(e), d(""), e === "saved" && xe(await T("quotes")), e === "users" && Te(await T("users"));
 	}
-	async function Ve(e) {
+	async function Le(e) {
 		e.preventDefault();
 		let t = e.currentTarget, n = Object.fromEntries(new FormData(t));
-		await Ae(async () => {
-			await T(o, n), t.reset(), o === "register" ? (d("가입 신청이 접수되었습니다. 관리자 승인 후 로그인해 주세요."), s("login")) : o === "setup" ? (d("관리자 계정이 생성되었습니다. 설정한 아이디로 로그인해 주세요."), a(!1), s("login")) : (p("search"), await je());
+		await Oe(async () => {
+			await T(o, n), t.reset(), o === "register" ? (d("가입 신청이 접수되었습니다. 관리자 승인 후 로그인해 주세요."), s("login")) : o === "setup" ? (d("관리자 계정이 생성되었습니다. 설정한 아이디로 로그인해 주세요."), a(!1), s("login")) : (p("search"), await ke());
 		});
 	}
-	let He = (e) => Ae(() => Be(e)), Ue = () => {
-		t(null), h([]), k([]), pe([]), Te(null), Ce([]), De([]), _(!1), _e(""), xe(""), he("종이 구매 견적");
+	let Re = (e) => Oe(() => Ie(e)), ze = () => {
+		t(null), h([]), k([]), Ce(null), xe([]), Te([]), _(!1), he(""), ye(""), pe("종이 구매 견적"), _e(ne());
 	};
 	return (0, b.useEffect)(() => {
-		ie() && w("staff-state", {
+		ae() && ie("staff-state", {
 			user: e,
-			selected: O,
-			quoteCount: A.length
+			quoteCount: O.length
 		});
-	}, [
-		e,
-		O,
-		A.length
-	]), (0, b.useEffect)(() => {
-		if (!ie()) return;
+	}, [e, O.length]), (0, b.useEffect)(() => {
+		if (!ae()) return;
 		let n = () => {
-			Ue(), s("login"), r(!0), d("로그인이 만료되었거나 이용 권한이 변경되었습니다. 다시 로그인해 주세요.");
+			ze(), s("login"), r(!0), d("로그인이 만료되었거나 이용 권한이 변경되었습니다. 다시 로그인해 주세요.");
 		}, i = (t) => {
 			let n = t.detail;
 			if (n.action === "logout") {
-				Ae(async () => {
+				Oe(async () => {
 					try {
 						await T("logout", {});
 					} finally {
-						sessionStorage.removeItem(re), Ue(), w("staff-show", { view: "search" });
+						sessionStorage.removeItem(w), ze(), ie("staff-show", { view: "search" });
 					}
 				});
 				return;
 			}
 			if (!e) {
-				s("login"), w("staff-show", { view: "login" });
+				s("login"), ie("staff-show", { view: "login" });
 				return;
 			}
 			if (e.mustChange) {
-				p("password"), w("staff-show", { view: "password" });
+				p("password"), ie("staff-show", { view: "password" });
 				return;
 			}
-			if (n.action === "compare" || n.action === "add") {
+			if (n.action === "add") {
 				let e = m.find((e) => e.id === n.id);
 				if (!e) {
-					d("상품을 불러오는 중입니다. 잠시 후 다시 시도해 주세요."), w("staff-show", { view: "compare" });
+					d("상품을 불러오는 중입니다. 잠시 후 다시 시도해 주세요."), ie("staff-show", { view: "quote" });
 					return;
 				}
-				n.action === "compare" ? Ie(e.id) : ze(e) && Le(e), n.action === "add" && w("staff-toast", { text: A.some((t) => t.id === e.id) ? "이미 견적에 담긴 상품입니다." : "견적에 상품을 담았습니다." });
+				Fe(e) && Ne(e), n.action === "add" && ie("staff-toast", { text: O.some((t) => t.id === e.id) ? "이미 견적에 담긴 상품입니다." : "견적에 상품을 담았습니다." });
 				return;
 			}
-			He(n.view), w("staff-show", { view: n.view });
+			Re(n.view), ie("staff-show", { view: n.view });
 		}, a = () => {
-			sessionStorage.getItem(re) && T("me").then((e) => {
+			sessionStorage.getItem(w) && T("me").then((e) => {
 				!e.user || e.user.status !== "approved" ? n() : t(e.user);
 			}).catch(() => {});
 		};
@@ -8277,19 +8247,18 @@ function oe() {
 	}, [
 		e,
 		m,
-		O,
-		A
+		O
 	]), /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("header", {
 		className: "topbar",
 		children: [/* @__PURE__ */ (0, x.jsxs)("button", {
 			className: "brand",
 			onClick: () => {
-				p("search"), y(""), oe(""), ce(""), E(""), fe("original"), ue(1), Te(null);
+				p("search"), y(""), oe(""), ce(""), E(""), fe("original"), ue(1), Ce(null);
 			},
 			children: [/* @__PURE__ */ (0, x.jsx)("img", {
-				src: ie() ? "doosung-ci.png" : "/doosung-ci.png",
+				src: ae() ? "doosung-ci.png" : "/doosung-ci.png",
 				alt: "두성종이"
-			}), /* @__PURE__ */ (0, x.jsxs)("span", { children: ["DOOSUNG PAPER", /* @__PURE__ */ (0, x.jsx)("small", { children: "직원용 가격 비교 · 견적" })] })]
+			}), /* @__PURE__ */ (0, x.jsxs)("span", { children: ["DOOSUNG PAPER", /* @__PURE__ */ (0, x.jsx)("small", { children: "직원용 견적" })] })]
 		}), /* @__PURE__ */ (0, x.jsxs)("div", {
 			className: "topright",
 			children: [/* @__PURE__ */ (0, x.jsx)("a", {
@@ -8302,8 +8271,8 @@ function oe() {
 				" · ",
 				e.department
 			] }), /* @__PURE__ */ (0, x.jsx)("button", {
-				onClick: () => Ae(async () => {
-					await T("logout", {}), t(null), h([]), k([]), pe([]), Te(null), Ce([]), De([]), _(!1);
+				onClick: () => Oe(async () => {
+					await T("logout", {}), t(null), h([]), k([]), Ce(null), xe([]), Te([]), _(!1);
 				}),
 				children: "로그아웃"
 			})] })]
@@ -8323,15 +8292,14 @@ function oe() {
 			"aria-label": "직원용 메뉴",
 			children: [
 				["search", "상품 검색"],
-				["compare", `가격 비교 ${O.length}`],
-				["quote", `견적 작성 ${A.length}`],
+				["quote", `견적 작성 ${O.length}`],
 				["saved", "내 견적"],
 				...e.role === "admin" ? [["users", "직원 승인"]] : [],
 				["password", "비밀번호 변경"]
 			].map(([t, n]) => /* @__PURE__ */ (0, x.jsx)("button", {
 				className: f === t ? "active" : "",
 				disabled: e.mustChange && t !== "password",
-				onClick: () => He(t),
+				onClick: () => Re(t),
 				children: n
 			}, t))
 		}), f === "password" ? /* @__PURE__ */ (0, x.jsxs)("section", {
@@ -8346,8 +8314,8 @@ function oe() {
 					onSubmit: (e) => {
 						e.preventDefault();
 						let n = Object.fromEntries(new FormData(e.currentTarget));
-						Ae(async () => {
-							await T("password", n), t(null), h([]), _(!1), pe([]), Te(null), d("비밀번호를 변경했습니다. 다시 로그인해 주세요.");
+						Oe(async () => {
+							await T("password", n), t(null), h([]), _(!1), k([]), Ce(null), d("비밀번호를 변경했습니다. 다시 로그인해 주세요.");
 						});
 					},
 					children: [
@@ -8387,7 +8355,7 @@ function oe() {
 						children: "부가세 별도 · 매 단위 상품은 원/매, 포·권 상품은 원본 판매 단위로 표시합니다."
 					})
 				] }), /* @__PURE__ */ (0, x.jsx)("button", {
-					onClick: () => Ae(async () => {
+					onClick: () => Oe(async () => {
 						h((await T("catalog")).products), _(!0), d("가격표를 확인했습니다.");
 					}),
 					children: "가격표 다시 확인"
@@ -8464,11 +8432,11 @@ function oe() {
 			}),
 			/* @__PURE__ */ (0, x.jsx)("p", {
 				className: "muted",
-				children: g ? `검색 결과 ${C(Me.length)}개` : "가격표를 불러오는 중입니다."
+				children: g ? `검색 결과 ${C(Ae.length)}개` : "가격표를 불러오는 중입니다."
 			}),
 			/* @__PURE__ */ (0, x.jsx)("div", {
 				className: "productlist",
-				children: Me.slice((D - 1) * 20, D * 20).map((e) => /* @__PURE__ */ (0, x.jsxs)("article", {
+				children: Ae.slice((D - 1) * 20, D * 20).map((e) => /* @__PURE__ */ (0, x.jsxs)("article", {
 					className: "product",
 					children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, x.jsxs)("p", {
@@ -8486,20 +8454,15 @@ function oe() {
 						})
 					] }), /* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "product-actions",
-						children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: Re(e) }), /* @__PURE__ */ (0, x.jsxs)("div", { children: [/* @__PURE__ */ (0, x.jsx)("button", {
-							"aria-pressed": O.includes(e.id),
-							className: O.includes(e.id) ? "selected" : "",
-							onClick: () => Ie(e.id),
-							children: O.includes(e.id) ? "비교 선택됨" : "비교"
-						}), /* @__PURE__ */ (0, x.jsx)("button", {
-							disabled: !ze(e),
-							onClick: () => Le(e),
+						children: [/* @__PURE__ */ (0, x.jsx)("strong", { children: Pe(e) }), /* @__PURE__ */ (0, x.jsx)("div", { children: /* @__PURE__ */ (0, x.jsx)("button", {
+							disabled: !Fe(e),
+							onClick: () => Ne(e),
 							children: "견적 담기 +"
-						})] })]
+						}) })]
 					})]
 				}, e.id))
 			}),
-			g && !Me.length && /* @__PURE__ */ (0, x.jsx)("section", {
+			g && !Ae.length && /* @__PURE__ */ (0, x.jsx)("section", {
 				className: "panel",
 				children: "검색 조건에 맞는 상품이 없습니다."
 			}),
@@ -8514,75 +8477,16 @@ function oe() {
 					/* @__PURE__ */ (0, x.jsxs)("span", { children: [
 						D,
 						" / ",
-						Math.max(1, Math.ceil(Me.length / 20))
+						Math.max(1, Math.ceil(Ae.length / 20))
 					] }),
 					/* @__PURE__ */ (0, x.jsx)("button", {
-						disabled: D * 20 >= Me.length,
+						disabled: D * 20 >= Ae.length,
 						onClick: () => ue(D + 1),
 						children: "다음"
 					})
 				]
 			})
-		] }) : f === "compare" ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("div", {
-			className: "section-heading",
-			children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
-				/* @__PURE__ */ (0, x.jsx)("p", {
-					className: "eyebrow",
-					children: "SIDE BY SIDE"
-				}),
-				/* @__PURE__ */ (0, x.jsx)("h1", { children: "종이 가격 비교" }),
-				/* @__PURE__ */ (0, x.jsx)("p", {
-					className: "muted",
-					children: "최대 4개 상품을 비교합니다. 규격과 판매 단위가 같은지 확인해 주세요."
-				})
-			] }), /* @__PURE__ */ (0, x.jsx)("button", {
-				onClick: () => He("search"),
-				children: "상품 추가"
-			})]
-		}), Ne.length ? /* @__PURE__ */ (0, x.jsx)("div", {
-			className: "compare-grid",
-			children: Ne.map((e) => /* @__PURE__ */ (0, x.jsxs)("article", {
-				className: "panel compare",
-				children: [
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						className: "remove",
-						"aria-label": e.name + " 비교 제외",
-						onClick: () => Ie(e.id),
-						children: "×"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("p", {
-						className: "eyebrow",
-						children: e.middle
-					}),
-					/* @__PURE__ */ (0, x.jsx)("h2", { children: e.name }),
-					/* @__PURE__ */ (0, x.jsx)("strong", {
-						className: "bigprice",
-						children: Re(e)
-					}),
-					/* @__PURE__ */ (0, x.jsxs)("dl", { children: [
-						/* @__PURE__ */ (0, x.jsx)("dt", { children: "규격" }),
-						/* @__PURE__ */ (0, x.jsx)("dd", { children: e.spec || "미기재" }),
-						/* @__PURE__ */ (0, x.jsx)("dt", { children: "평량" }),
-						/* @__PURE__ */ (0, x.jsx)("dd", { children: e.weight || "미기재" }),
-						/* @__PURE__ */ (0, x.jsx)("dt", { children: "사이즈" }),
-						/* @__PURE__ */ (0, x.jsx)("dd", { children: e.size || "미기재" }),
-						/* @__PURE__ */ (0, x.jsx)("dt", { children: "상품 구분" }),
-						/* @__PURE__ */ (0, x.jsx)("dd", { children: e.itemClass || "미기재" }),
-						/* @__PURE__ */ (0, x.jsx)("dt", { children: "판매 단위" }),
-						/* @__PURE__ */ (0, x.jsx)("dd", { children: e.unit })
-					] }),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						className: "primary full",
-						disabled: !ze(e),
-						onClick: () => Le(e),
-						children: "견적에 담기"
-					})
-				]
-			}, e.id))
-		}) : /* @__PURE__ */ (0, x.jsx)("section", {
-			className: "panel empty",
-			children: "상품 검색에서 ‘비교’를 눌러 상품을 선택해 주세요."
-		})] }) : f === "quote" ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("div", {
+		] }) : f === "quote" ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("div", {
 			className: "section-heading",
 			children: [/* @__PURE__ */ (0, x.jsxs)("div", { children: [
 				/* @__PURE__ */ (0, x.jsx)("p", {
@@ -8595,19 +8499,19 @@ function oe() {
 					children: "적용 단가와 할인율은 표준 단가를 기준으로 자동 계산됩니다. 할인율은 소수점 둘째 자리까지 표시합니다."
 				})
 			] }), /* @__PURE__ */ (0, x.jsx)("button", {
-				onClick: () => He("search"),
+				onClick: () => Re("search"),
 				children: "상품 추가"
 			})]
 		}), /* @__PURE__ */ (0, x.jsx)("form", {
 			onSubmit: (e) => {
-				e.preventDefault(), Ae(async () => {
-					Te((await T("quotes", {
-						title: me,
-						customer: ge,
-						validUntil: ve,
-						notes: be,
-						lines: A
-					})).snapshot), p("saved"), Ce(await T("quotes")), d("견적을 저장했습니다.");
+				e.preventDefault(), Oe(async () => {
+					Ce((await T("quotes", {
+						title: A,
+						customer: me,
+						validUntil: ge,
+						notes: ve,
+						lines: O
+					})).snapshot), p("saved"), xe(await T("quotes")), d("견적을 저장했습니다.");
 				});
 			},
 			children: /* @__PURE__ */ (0, x.jsxs)("section", {
@@ -8617,21 +8521,21 @@ function oe() {
 						className: "form-grid",
 						children: [
 							/* @__PURE__ */ (0, x.jsxs)("label", { children: ["견적명", /* @__PURE__ */ (0, x.jsx)("input", {
-								value: me,
-								onChange: (e) => he(e.target.value),
+								value: A,
+								onChange: (e) => pe(e.target.value),
 								required: !0,
 								maxLength: 100
 							})] }),
 							/* @__PURE__ */ (0, x.jsxs)("label", { children: ["거래처", /* @__PURE__ */ (0, x.jsx)("input", {
-								value: ge,
-								onChange: (e) => _e(e.target.value),
+								value: me,
+								onChange: (e) => he(e.target.value),
 								placeholder: "선택 입력",
 								maxLength: 100
 							})] }),
 							/* @__PURE__ */ (0, x.jsxs)("label", { children: ["견적 유효기간", /* @__PURE__ */ (0, x.jsx)("input", {
 								type: "date",
-								value: ve,
-								onChange: (e) => ye(e.target.value),
+								value: ge,
+								onChange: (e) => _e(e.target.value),
 								required: !0
 							})] })
 						]
@@ -8646,7 +8550,7 @@ function oe() {
 							/* @__PURE__ */ (0, x.jsx)("th", { children: "수량" }),
 							/* @__PURE__ */ (0, x.jsx)("th", { children: "금액" }),
 							/* @__PURE__ */ (0, x.jsx)("th", {})
-						] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: A.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+						] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: O.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
 							/* @__PURE__ */ (0, x.jsxs)("td", { children: [e.name, /* @__PURE__ */ (0, x.jsx)("small", { children: e.spec })] }),
 							/* @__PURE__ */ (0, x.jsxs)("td", { children: [
 								C(e.sourcePrice),
@@ -8657,7 +8561,7 @@ function oe() {
 								name: e.name,
 								standard: e.sourcePrice,
 								applied: e.appliedPrice,
-								onChange: (t) => pe((n) => n.map((n) => n.id === e.id ? {
+								onChange: (t) => k((n) => n.map((n) => n.id === e.id ? {
 									...n,
 									appliedPrice: t
 								} : n))
@@ -8670,7 +8574,7 @@ function oe() {
 								step: "1",
 								required: !0,
 								value: e.quantity,
-								onChange: (e) => pe(A.map((n, r) => r === t ? {
+								onChange: (e) => k(O.map((n, r) => r === t ? {
 									...n,
 									quantity: e.target.valueAsNumber
 								} : n))
@@ -8679,28 +8583,28 @@ function oe() {
 							/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)("button", {
 								type: "button",
 								"aria-label": e.name + " 삭제",
-								onClick: () => pe(A.filter((t) => t.id !== e.id)),
+								onClick: () => k(O.filter((t) => t.id !== e.id)),
 								children: "×"
 							}) })
 						] }, e.id)) })] })
 					}),
-					!A.length && /* @__PURE__ */ (0, x.jsx)("p", {
+					!O.length && /* @__PURE__ */ (0, x.jsx)("p", {
 						className: "empty muted",
 						children: "상품 검색에서 견적에 담을 종이를 선택해 주세요."
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("label", { children: ["비고", /* @__PURE__ */ (0, x.jsx)("textarea", {
 						maxLength: 1e3,
-						value: be,
-						onChange: (e) => xe(e.target.value)
+						value: ve,
+						onChange: (e) => ye(e.target.value)
 					})] }),
 					/* @__PURE__ */ (0, x.jsxs)("div", {
 						className: "totals",
 						children: [
-							/* @__PURE__ */ (0, x.jsxs)("span", { children: ["공급가액 ", /* @__PURE__ */ (0, x.jsxs)("b", { children: [C(Pe), "원"] })] }),
-							/* @__PURE__ */ (0, x.jsxs)("span", { children: ["부가세 (10%) ", /* @__PURE__ */ (0, x.jsxs)("b", { children: [C(Fe), "원"] })] }),
+							/* @__PURE__ */ (0, x.jsxs)("span", { children: ["공급가액 ", /* @__PURE__ */ (0, x.jsxs)("b", { children: [C(je), "원"] })] }),
+							/* @__PURE__ */ (0, x.jsxs)("span", { children: ["부가세 (10%) ", /* @__PURE__ */ (0, x.jsxs)("b", { children: [C(Me), "원"] })] }),
 							/* @__PURE__ */ (0, x.jsxs)("strong", { children: [
 								"합계 ",
-								C(Pe + Fe),
+								C(je + Me),
 								"원"
 							] })
 						]
@@ -8711,7 +8615,7 @@ function oe() {
 					}),
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						className: "primary",
-						disabled: c || !A.length,
+						disabled: c || !O.length,
 						children: "견적 저장"
 					})
 				]
@@ -8728,49 +8632,42 @@ function oe() {
 					className: "muted",
 					children: "내가 작성한 최근 200개 견적입니다."
 				})
-			] }), we && /* @__PURE__ */ (0, x.jsxs)("div", {
+			] }), Se && /* @__PURE__ */ (0, x.jsxs)("div", {
 				className: "actions",
-				children: [
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						onClick: () => ae(we),
-						children: "엑셀용 CSV"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						className: "primary",
-						onClick: () => window.print(),
-						children: "인쇄 / PDF 저장"
-					}),
-					/* @__PURE__ */ (0, x.jsx)("button", {
-						onClick: () => Te(null),
-						children: "목록"
-					})
-				]
+				children: [/* @__PURE__ */ (0, x.jsx)("button", {
+					className: "primary",
+					onClick: () => window.print(),
+					children: "인쇄 / PDF 저장"
+				}), /* @__PURE__ */ (0, x.jsx)("button", {
+					onClick: () => Ce(null),
+					children: "목록"
+				})]
 			})]
-		}), we ? /* @__PURE__ */ (0, x.jsxs)("section", {
+		}), Se ? /* @__PURE__ */ (0, x.jsxs)("section", {
 			className: "panel invoice",
 			id: "print-quote",
 			children: [
 				/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "invoice-heading",
 					children: [/* @__PURE__ */ (0, x.jsx)("img", {
-						src: ie() ? "doosung-ci.png" : "/doosung-ci.png",
+						src: ae() ? "doosung-ci.png" : "/doosung-ci.png",
 						alt: "두성종이"
 					}), /* @__PURE__ */ (0, x.jsx)("h1", { children: "견적서" })]
 				}),
-				/* @__PURE__ */ (0, x.jsx)("h2", { children: we.title }),
+				/* @__PURE__ */ (0, x.jsx)("h2", { children: Se.title }),
 				/* @__PURE__ */ (0, x.jsxs)("dl", { children: [
 					/* @__PURE__ */ (0, x.jsx)("dt", { children: "거래처" }),
-					/* @__PURE__ */ (0, x.jsx)("dd", { children: we.customer || "—" }),
+					/* @__PURE__ */ (0, x.jsx)("dd", { children: Se.customer || "—" }),
 					/* @__PURE__ */ (0, x.jsx)("dt", { children: "담당자" }),
 					/* @__PURE__ */ (0, x.jsxs)("dd", { children: [
-						we.author,
+						Se.author,
 						" · ",
-						we.department
+						Se.department
 					] }),
 					/* @__PURE__ */ (0, x.jsx)("dt", { children: "작성일" }),
-					/* @__PURE__ */ (0, x.jsx)("dd", { children: new Date(we.created).toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" }) }),
+					/* @__PURE__ */ (0, x.jsx)("dd", { children: new Date(Se.created).toLocaleDateString("ko-KR", { timeZone: "Asia/Seoul" }) }),
 					/* @__PURE__ */ (0, x.jsx)("dt", { children: "유효기간" }),
-					/* @__PURE__ */ (0, x.jsx)("dd", { children: we.validUntil })
+					/* @__PURE__ */ (0, x.jsx)("dd", { children: Se.validUntil })
 				] }),
 				/* @__PURE__ */ (0, x.jsx)("div", {
 					className: "table-wrap",
@@ -8779,7 +8676,7 @@ function oe() {
 						/* @__PURE__ */ (0, x.jsx)("th", { children: "단가" }),
 						/* @__PURE__ */ (0, x.jsx)("th", { children: "수량" }),
 						/* @__PURE__ */ (0, x.jsx)("th", { children: "금액" })
-					] }) }), /* @__PURE__ */ (0, x.jsxs)("tbody", { children: [we.lines.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+					] }) }), /* @__PURE__ */ (0, x.jsxs)("tbody", { children: [Se.lines.map((e, t) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [e.name, /* @__PURE__ */ (0, x.jsx)("small", { children: e.spec })] }),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [
 							C(e.appliedPrice),
@@ -8788,7 +8685,7 @@ function oe() {
 						] }),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [C(e.quantity), e.unit] }),
 						/* @__PURE__ */ (0, x.jsxs)("td", { children: [C(e.amount), "원"] })
-					] }, t)), we.notes && /* @__PURE__ */ (0, x.jsxs)("tr", {
+					] }, t)), Se.notes && /* @__PURE__ */ (0, x.jsxs)("tr", {
 						className: "invoice-notes",
 						children: [/* @__PURE__ */ (0, x.jsx)("th", {
 							scope: "row",
@@ -8796,18 +8693,18 @@ function oe() {
 						}), /* @__PURE__ */ (0, x.jsx)("td", {
 							colSpan: 3,
 							className: "preline",
-							children: we.notes
+							children: Se.notes
 						})]
 					})] })] })
 				}),
 				/* @__PURE__ */ (0, x.jsxs)("div", {
 					className: "totals",
 					children: [
-						/* @__PURE__ */ (0, x.jsxs)("span", { children: ["공급가액 ", /* @__PURE__ */ (0, x.jsxs)("b", { children: [C(we.subtotal), "원"] })] }),
-						/* @__PURE__ */ (0, x.jsxs)("span", { children: ["부가세 ", /* @__PURE__ */ (0, x.jsxs)("b", { children: [C(we.vat), "원"] })] }),
+						/* @__PURE__ */ (0, x.jsxs)("span", { children: ["공급가액 ", /* @__PURE__ */ (0, x.jsxs)("b", { children: [C(Se.subtotal), "원"] })] }),
+						/* @__PURE__ */ (0, x.jsxs)("span", { children: ["부가세 ", /* @__PURE__ */ (0, x.jsxs)("b", { children: [C(Se.vat), "원"] })] }),
 						/* @__PURE__ */ (0, x.jsxs)("strong", { children: [
 							"합계 ",
-							C(we.total),
+							C(Se.total),
 							"원"
 						] })
 					]
@@ -8820,12 +8717,12 @@ function oe() {
 		}) : /* @__PURE__ */ (0, x.jsx)("section", {
 			className: "panel",
 			children: /* @__PURE__ */ (0, x.jsx)(S, {
-				quotes: Se,
+				quotes: be,
 				busy: c,
-				onOpen: (e) => Te(Se.find((t) => t.id === e).snapshot),
-				onDelete: (e) => Ae(async () => {
+				onOpen: (e) => Ce(be.find((t) => t.id === e).snapshot),
+				onDelete: (e) => Oe(async () => {
 					let t = await T("quotes/delete", { ids: e });
-					Ce((t) => t.filter((t) => !e.includes(t.id))), d(t.deleted ? `${t.deleted}개 견적을 삭제했습니다.` : "이미 삭제되었거나 삭제할 견적이 없습니다.");
+					xe((t) => t.filter((t) => !e.includes(t.id))), d(t.deleted ? `${t.deleted}개 견적을 삭제했습니다.` : "이미 삭제되었거나 삭제할 견적이 없습니다.");
 				})
 			})
 		})] }) : f === "users" && e.role === "admin" ? /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("div", {
@@ -8841,7 +8738,7 @@ function oe() {
 					children: "가입 신청자의 이름과 부서를 확인한 뒤 승인해 주세요."
 				})
 			] }), /* @__PURE__ */ (0, x.jsx)("button", {
-				onClick: () => He("users"),
+				onClick: () => Re("users"),
 				children: "새로고침"
 			})]
 		}), /* @__PURE__ */ (0, x.jsxs)("section", {
@@ -8853,7 +8750,7 @@ function oe() {
 					/* @__PURE__ */ (0, x.jsx)("th", { children: "아이디" }),
 					/* @__PURE__ */ (0, x.jsx)("th", { children: "상태" }),
 					/* @__PURE__ */ (0, x.jsx)("th", { children: "관리" })
-				] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: Ee.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
+				] }) }), /* @__PURE__ */ (0, x.jsx)("tbody", { children: we.map((e) => /* @__PURE__ */ (0, x.jsxs)("tr", { children: [
 					/* @__PURE__ */ (0, x.jsxs)("td", { children: [e.name, /* @__PURE__ */ (0, x.jsx)("small", { children: e.department })] }),
 					/* @__PURE__ */ (0, x.jsx)("td", { children: e.username }),
 					/* @__PURE__ */ (0, x.jsx)("td", { children: /* @__PURE__ */ (0, x.jsx)("span", {
@@ -8865,46 +8762,46 @@ function oe() {
 						children: [
 							e.status !== "approved" && /* @__PURE__ */ (0, x.jsx)("button", {
 								disabled: c,
-								onClick: () => Ae(async () => {
+								onClick: () => Oe(async () => {
 									await T("users", {
 										id: e.id,
 										status: "approved"
-									}), De(await T("users"));
+									}), Te(await T("users"));
 								}),
 								children: "승인"
 							}),
 							e.status !== "disabled" && /* @__PURE__ */ (0, x.jsx)("button", {
 								disabled: c,
-								onClick: () => Ae(async () => {
+								onClick: () => Oe(async () => {
 									await T("users", {
 										id: e.id,
 										status: "disabled"
-									}), De(await T("users"));
+									}), Te(await T("users"));
 								}),
 								children: "이용 중지"
 							}),
 							/* @__PURE__ */ (0, x.jsx)("button", {
-								onClick: () => ke(e.id),
+								onClick: () => De(e.id),
 								children: "비밀번호 재설정"
 							})
 						]
 					}) })
 				] }, e.id)) })] })
-			}), Oe && /* @__PURE__ */ (0, x.jsxs)("form", {
+			}), Ee && /* @__PURE__ */ (0, x.jsxs)("form", {
 				className: "reset-box",
 				onSubmit: (e) => {
 					e.preventDefault();
 					let t = Object.fromEntries(new FormData(e.currentTarget));
-					Ae(async () => {
+					Oe(async () => {
 						await T("users", {
-							id: Oe,
+							id: Ee,
 							action: "reset",
 							password: t.password
-						}), ke(""), d("재설정했습니다. 직원에게 임시 비밀번호를 별도로 전달해 주세요. 로그인 후 비밀번호 변경이 필요합니다.");
+						}), De(""), d("재설정했습니다. 직원에게 임시 비밀번호를 별도로 전달해 주세요. 로그인 후 비밀번호 변경이 필요합니다.");
 					});
 				},
 				children: [
-					/* @__PURE__ */ (0, x.jsxs)("h3", { children: [Ee.find((e) => e.id === Oe)?.name, " 님 비밀번호 재설정"] }),
+					/* @__PURE__ */ (0, x.jsxs)("h3", { children: [we.find((e) => e.id === Ee)?.name, " 님 비밀번호 재설정"] }),
 					/* @__PURE__ */ (0, x.jsxs)("label", { children: ["임시 비밀번호", /* @__PURE__ */ (0, x.jsx)("input", {
 						type: "password",
 						name: "password",
@@ -8921,7 +8818,7 @@ function oe() {
 					" ",
 					/* @__PURE__ */ (0, x.jsx)("button", {
 						type: "button",
-						onClick: () => ke(""),
+						onClick: () => De(""),
 						children: "취소"
 					})
 				]
@@ -8936,7 +8833,7 @@ function oe() {
 						children: "DOOSUNG STAFF WORKSPACE"
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("h1", { children: [
-						"종이를 비교하고,",
+						"종이를 검색하고,",
 						/* @__PURE__ */ (0, x.jsx)("br", {}),
 						"견적을 완성하세요."
 					] }),
@@ -8949,7 +8846,7 @@ function oe() {
 						className: "steps",
 						children: [
 							/* @__PURE__ */ (0, x.jsx)("span", { children: "01 상품 검색" }),
-							/* @__PURE__ */ (0, x.jsx)("span", { children: "02 가격 비교" }),
+							/* @__PURE__ */ (0, x.jsx)("span", { children: "02 견적 작성" }),
 							/* @__PURE__ */ (0, x.jsx)("span", { children: "03 견적 저장" })
 						]
 					})
@@ -8967,7 +8864,7 @@ function oe() {
 						children: o === "setup" ? "이 비공개 화면에서 관리자 계정을 먼저 만들어 주세요. 직원에게 링크를 공유하기 전 접속 범위를 설정해야 합니다." : o === "register" ? "가입 신청 후 관리자의 승인을 기다려 주세요." : "승인받은 아이디와 비밀번호를 입력해 주세요."
 					}),
 					/* @__PURE__ */ (0, x.jsxs)("form", {
-						onSubmit: Ve,
+						onSubmit: Le,
 						children: [
 							o !== "login" && /* @__PURE__ */ (0, x.jsxs)(x.Fragment, { children: [/* @__PURE__ */ (0, x.jsxs)("label", { children: ["이름", /* @__PURE__ */ (0, x.jsx)("input", {
 								name: "name",
@@ -9020,7 +8917,7 @@ function oe() {
 		}) : /* @__PURE__ */ (0, x.jsxs)("section", {
 			className: "panel",
 			children: [/* @__PURE__ */ (0, x.jsx)("h1", { children: "직원용 시스템을 준비하고 있습니다." }), !c && /* @__PURE__ */ (0, x.jsx)("button", {
-				onClick: () => Ae(je),
+				onClick: () => Oe(ke),
 				children: "다시 시도"
 			})]
 		}),
