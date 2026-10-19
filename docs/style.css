@@ -72,3 +72,23 @@ a.brand{color:inherit;text-decoration:none}a.brand:focus-visible{outline:3px sol
 .staff-prices .sheet-price{border-left:0;padding-left:0}
 .staff-prices .sales-unit-price{border-left:1px solid #e4e9f1;padding-left:14px}
 @media(max-width:760px){#list .staff-prices .sheet-price{padding-left:0}#list .staff-prices .sales-unit-price{padding-left:8px}}
+
+/* Actions sit beside the prices, rather than on a separate full-width row. */
+#list .product-price{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:12px;row-gap:0}
+#list .product-price .price-columns{grid-column:1;grid-row:1/3;align-self:center}
+#list .details-button{grid-column:2;grid-row:1;justify-self:stretch;text-align:center;padding:0 6px}
+#list .employee-actions{grid-column:2;grid-row:2;align-self:start}
+#list .employee-actions button{width:100%;white-space:nowrap}
+@media(min-width:1051px){#list .product-price:has(.staff-prices){min-width:440px}}
+@media(max-width:760px){
+ #list .product-price{column-gap:8px}
+ #list .details-button,#list .employee-actions button{font-size:11px;padding-left:6px;padding-right:6px}
+ #list .staff-prices{gap:5px}
+ #list .staff-prices .sales-unit-price,#list .staff-prices .ton-price{padding-left:5px}
+ #list .staff-prices .money,#list .staff-prices .ton-money{font-size:16px}
+ #list .staff-prices small{display:block;font-size:10px;margin-left:0;line-height:1.4}
+ #list .staff-prices .unit{font-size:10px;line-height:1.4}
+ #list .sheet-price .unit{display:none}
+}
+
+#list .price-columns .unit{word-break:keep-all}
