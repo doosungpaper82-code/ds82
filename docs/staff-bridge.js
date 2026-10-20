@@ -8,14 +8,14 @@ window.staffUser=null;
  let staffLoad;
  const ensureStaff=()=>{
    if(!staffLoad){
-     const css=document.createElement('link');css.rel='stylesheet';css.href='staff/staff-client.css?v=search-20261019';document.head.append(css);
+     const css=document.createElement('link');css.rel='stylesheet';css.href='staff/staff-client.css?v=autologin-20261020';document.head.append(css);
      byId('staff-root').textContent='직원 로그인 화면을 불러오는 중입니다…';
-     staffLoad=import('./staff/staff-client.js?v=search-20261019').catch(error=>{staffLoad=null;byId('staff-root').textContent='화면을 불러오지 못했습니다. 직원 로그인 버튼을 다시 눌러 주세요.';throw error;});
+     staffLoad=import('./staff/staff-client.js?v=autologin-20261020').catch(error=>{staffLoad=null;byId('staff-root').textContent='화면을 불러오지 못했습니다. 직원 로그인 버튼을 다시 눌러 주세요.';throw error;});
    }
    return staffLoad;
  };
  byId('staff-login').addEventListener('click',()=>{show('login');ensureStaff().then(()=>{if(window.staffUser)send({view:'quote'});}).catch(()=>{});});
- if(sessionStorage.getItem('doosung-staff-session')){const restore=()=>ensureStaff().catch(()=>{});if('requestIdleCallback' in window)requestIdleCallback(restore,{timeout:1200});else setTimeout(restore,0);}
+ if(sessionStorage.getItem('doosung-staff-session')||localStorage.getItem('doosung-staff-remembered')){const restore=()=>ensureStaff().catch(()=>{});if('requestIdleCallback' in window)requestIdleCallback(restore,{timeout:1200});else setTimeout(restore,0);}
  window.addEventListener('staff-show',e=>show(e.detail.view));
  const toast=text=>{byId('staff-toast').textContent=text;byId('staff-toast').hidden=false;clearTimeout(window.staffToastTimer);window.staffToastTimer=setTimeout(()=>byId('staff-toast').hidden=true,3500);};
  window.addEventListener('staff-toast',e=>toast(e.detail.text));
