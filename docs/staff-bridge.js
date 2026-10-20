@@ -25,9 +25,11 @@ window.staffUser=null;
   byId('staff-login').textContent=user?'직원 메뉴':'직원 로그인';
   byId('staff-controls').hidden=!user;
   byId('staff-controls').replaceChildren();
+  byId('staff-account-controls').hidden=!user;
+  byId('staff-account-controls').replaceChildren();
   if(user){const info=document.createElement('span');info.className='staff-user';info.textContent=user.name+' · '+user.department;byId('staff-controls').append(info);
    const items=[['search','가격 검색'],['quote',`견적 작성 (${quoteCount})`],['saved','내 견적'],...(user.role==='admin'?[['users','직원 승인']]:[]),['password','비밀번호 변경'],['logout','로그아웃']];
-   for(const [view,label] of items){const button=document.createElement('button');button.type='button';button.textContent=label;button.disabled=user.mustChange&&!['password','logout'].includes(view);button.addEventListener('click',()=>{if(view==='search')show(view);else if(view==='logout')send({action:'logout'});else{show(view);send({view});}});byId('staff-controls').append(button);}
+   for(const [view,label] of items){const button=document.createElement('button');button.type='button';button.textContent=label;button.disabled=user.mustChange&&!['password','logout'].includes(view);button.addEventListener('click',()=>{if(view==='search')show(view);else if(view==='logout')send({action:'logout'});else{show(view);send({view});}});byId(['users','password','logout'].includes(view)?'staff-account-controls':'staff-controls').append(button);}
   }
   const note=document.querySelector('.price-note');if(note){note.replaceChildren(document.createTextNode(user&&!user.mustChange?'가격 · 장단가 / 연단가 / 톤단가 (포·권 등은 원본 단위) ':'가격 · 원 / 표시단위 (매 단위 상품은 500매 기준) '));const vat=document.createElement('span');vat.textContent='부가세(VAT) 별도 금액';note.append(vat);}
   if(previousStaff!==(!!window.staffUser&&!window.staffUser.mustChange)){if(typeof render==='function')render();const detail=byId('detail');if(detail.open)detail.close();}
