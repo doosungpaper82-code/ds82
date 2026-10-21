@@ -30,3 +30,6 @@
  .workspace:has(#filter-panel[open]) .results-bar{scroll-margin-top:calc(var(--staff-nav-height,0px) + 45dvh + 90px)}
 }
 @media print{#staff-controls{display:none!important}.workspace>.searchbox,.workspace>.filters{position:static}}
+
+/* Edit a saved quotation from its detail view only. */
+#staff-root .saved-quote-item > .saved-quote-edit{display:none!important}
