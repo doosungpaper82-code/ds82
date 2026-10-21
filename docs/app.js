@@ -155,13 +155,14 @@ const mobileMedia = matchMedia('(max-width:760px)');
 const syncFilterToggle=()=>{
   const open=$('filter-panel').open;
   $('toggle-filters').setAttribute('aria-expanded',String(open));
-  $('filter-toggle-label').textContent=open?'접기 ▴':'펼치기 ▾';
+  $('filter-toggle-label').textContent=mobileMedia.matches?(open?'접기 ▴':'펼치기 ▾'):(open?'접기 ‹':'펼치기 ›');
   if(!open)document.querySelector('.filters').scrollTop=0;
 };
 const setFiltersOpen=open=>{$('filter-panel').open=open;syncFilterToggle();};
 const adaptFilters=()=>setFiltersOpen(!mobileMedia.matches);
 $('toggle-filters').addEventListener('click',()=>setFiltersOpen(!$('filter-panel').open));
 $('filter-panel').addEventListener('toggle',syncFilterToggle);
+mobileMedia.addEventListener('change',syncFilterToggle);
 adaptFilters();
 
 
