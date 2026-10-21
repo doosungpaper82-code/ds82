@@ -13,9 +13,9 @@ window.staffUser=null;
  let staffLoad;
  const ensureStaff=()=>{
    if(!staffLoad){
-     const css=document.createElement('link');css.rel='stylesheet';css.href='staff/staff-client.css?v=preview-20261021';document.head.append(css);
+     const css=document.createElement('link');css.rel='stylesheet';css.href='staff/staff-client.css?v=edit-20261021';document.head.append(css);
      byId('staff-root').textContent='직원 로그인 화면을 불러오는 중입니다…';
-     staffLoad=import('./staff/staff-client-preview-20261021.js').catch(error=>{staffLoad=null;byId('staff-root').textContent='화면을 불러오지 못했습니다. 직원 로그인 버튼을 다시 눌러 주세요.';throw error;});
+     staffLoad=import('./staff/staff-client-edit-20261021.js').catch(error=>{staffLoad=null;byId('staff-root').textContent='화면을 불러오지 못했습니다. 직원 로그인 버튼을 다시 눌러 주세요.';throw error;});
    }
    return staffLoad;
  };
@@ -34,7 +34,7 @@ window.staffUser=null;
   byId('staff-account-controls').hidden=!user;
   byId('staff-account-controls').replaceChildren();
   if(user){const info=document.createElement('span');info.className='staff-user';info.textContent=user.name+' · '+user.department;byId('staff-controls').append(info);
-   const items=[['search','가격 검색'],['quote',`견적 작성 (${quoteCount})`],['saved','내 견적'],...(user.role==='admin'?[['users','직원 승인']]:[]),['password','비밀번호 변경'],['logout','로그아웃']];
+   const items=[['search','가격 검색'],['quote','견적 작성'],['saved','내 견적'],...(user.role==='admin'?[['users','직원 승인']]:[]),['password','비밀번호 변경'],['logout','로그아웃']];
    for(const [view,label] of items){const button=document.createElement('button');button.type='button';button.textContent=label;button.disabled=user.mustChange&&!['password','logout'].includes(view);button.addEventListener('click',()=>{if(view==='search')show(view);else if(view==='logout')send({action:'logout'});else{show(view);send({view});}});byId(['users','password','logout'].includes(view)?'staff-account-controls':'staff-controls').append(button);}
   }
   syncNavHeight();
