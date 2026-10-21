@@ -3,6 +3,11 @@ window.STAFF_API_BASE='https://doosung-staff-quotes.doosungpaper82.chatgpt.site'
 window.staffUser=null;
 (()=>{
  const byId=id=>document.getElementById(id);
+ const syncNavHeight=()=>document.documentElement.style.setProperty('--staff-nav-height',byId('staff-controls').getBoundingClientRect().height+'px');
+ const navObserver=new ResizeObserver(syncNavHeight);
+ navObserver.observe(byId('staff-controls'));
+ window.addEventListener('resize',syncNavHeight);
+ syncNavHeight();
  const send=detail=>window.dispatchEvent(new CustomEvent('staff-command',{detail}));
  const show=view=>{const staff=view!=='search';byId('staff-root').hidden=!staff;byId('public-catalog').hidden=staff;byId('staff-toast').hidden=true;document.body.classList.toggle('staff-view',staff);window.scrollTo({top:0,behavior:'instant'});};
  let staffLoad;
@@ -32,6 +37,7 @@ window.staffUser=null;
    const items=[['search','가격 검색'],['quote',`견적 작성 (${quoteCount})`],['saved','내 견적'],...(user.role==='admin'?[['users','직원 승인']]:[]),['password','비밀번호 변경'],['logout','로그아웃']];
    for(const [view,label] of items){const button=document.createElement('button');button.type='button';button.textContent=label;button.disabled=user.mustChange&&!['password','logout'].includes(view);button.addEventListener('click',()=>{if(view==='search')show(view);else if(view==='logout')send({action:'logout'});else{show(view);send({view});}});byId(['users','password','logout'].includes(view)?'staff-account-controls':'staff-controls').append(button);}
   }
+  syncNavHeight();
   const note=document.querySelector('.price-note');if(note){note.replaceChildren(document.createTextNode(user&&!user.mustChange?'가격 · 장단가 / 연단가 / 톤단가 (포·권 등은 원본 단위) ':'가격 · 원 / 표시단위 (매 단위 상품은 500매 기준) '));const vat=document.createElement('span');vat.textContent='부가세(VAT) 별도 금액';note.append(vat);}
   if(previousStaff!==(!!window.staffUser&&!window.staffUser.mustChange)){if(typeof render==='function')render();const detail=byId('detail');if(detail.open)detail.close();}
  });

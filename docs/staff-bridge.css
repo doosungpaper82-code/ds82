@@ -17,3 +17,16 @@
 
 /* Keep the login entry visible only to signed-out visitors. */
 #staff-login[hidden]{display:none!important}
+
+/* Keep employee navigation above the existing sticky search tools. */
+#staff-controls{position:sticky;top:0;z-index:30}
+.workspace>.searchbox{top:calc(var(--staff-nav-height,0px) + 12px)}
+.workspace>.filters{top:calc(var(--staff-nav-height,0px) + 12px);max-height:calc(100dvh - var(--staff-nav-height,0px) - 24px)}
+.results-bar{scroll-margin-top:calc(var(--staff-nav-height,0px) + 88px)}
+@media(max-width:760px){
+ .workspace>.searchbox{top:calc(var(--staff-nav-height,0px) + 8px)}
+ .workspace>.filters{top:calc(var(--staff-nav-height,0px) + 75px);max-height:min(45dvh,calc(100dvh - var(--staff-nav-height,0px) - 90px))}
+ .results-bar{scroll-margin-top:calc(var(--staff-nav-height,0px) + 180px)}
+ .workspace:has(#filter-panel[open]) .results-bar{scroll-margin-top:calc(var(--staff-nav-height,0px) + 45dvh + 90px)}
+}
+@media print{#staff-controls{display:none!important}.workspace>.searchbox,.workspace>.filters{position:static}}
