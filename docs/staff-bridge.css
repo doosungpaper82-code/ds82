@@ -14,3 +14,6 @@
  body>header .brand{max-width:calc(100% - 120px)}
 }
 @media(max-width:480px){#staff-account-controls{gap:6px}#staff-account-controls button{padding:9px 10px;font-size:12px}}
+
+/* Keep the login entry visible only to signed-out visitors. */
+#staff-login[hidden]{display:none!important}

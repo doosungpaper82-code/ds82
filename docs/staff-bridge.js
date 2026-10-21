@@ -22,7 +22,8 @@ window.staffUser=null;
  window.addEventListener('staff-state',e=>{
   const previousStaff=!!window.staffUser&&!window.staffUser.mustChange;
   const {user,quoteCount}=e.detail;window.staffUser=user&&user.status==='approved'?user:null;
-  byId('staff-login').textContent=user?'직원 메뉴':'직원 로그인';
+  byId('staff-login').hidden=!!user;
+  byId('staff-login').textContent='직원 로그인';
   byId('staff-controls').hidden=!user;
   byId('staff-controls').replaceChildren();
   byId('staff-account-controls').hidden=!user;
