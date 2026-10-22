@@ -15,9 +15,9 @@ window.staffUser=null;
  let staffLoad;
  const ensureStaff=()=>{
    if(!staffLoad){
-     const css=document.createElement('link');css.rel='stylesheet';css.href='staff/staff-client.css?v=history-20261022';document.head.append(css);
+     const css=document.createElement('link');css.rel='stylesheet';css.href='staff/staff-client.css?v=copy-20261023';document.head.append(css);
      byId('staff-root').textContent='직원 로그인 화면을 불러오는 중입니다…';
-     staffLoad=import('./staff/staff-client-history-20261022.js').catch(error=>{staffLoad=null;byId('staff-root').textContent='화면을 불러오지 못했습니다. 직원 로그인 버튼을 다시 눌러 주세요.';throw error;});
+     staffLoad=import('./staff/staff-client-copy-20261023.js').catch(error=>{staffLoad=null;byId('staff-root').textContent='화면을 불러오지 못했습니다. 직원 로그인 버튼을 다시 눌러 주세요.';throw error;});
    }
    return staffLoad;
  };
