@@ -115,6 +115,14 @@ function render(){
   const min=$('weight-min'),max=$('weight-max');
   $('weight-error').textContent=!min.validity.valid||!max.validity.valid?'0 이상의 숫자를 입력해 주세요.':min.value!==''&&max.value!==''&&min.valueAsNumber>max.valueAsNumber?'최소 평량은 최대 평량보다 작거나 같아야 합니다.':'';
   filtered=updateOptions();
+  const hasSearch=!!query.trim()||fields.some(k=>!!state[k])||rangeIds.some(id=>$(id).value!==''||!$(id).validity.valid);
+  $('search-results').hidden=!hasSearch;
+  if(!hasSearch){
+    filtered=[];page=1;$('list').replaceChildren();$('chips').replaceChildren();
+    $('count').textContent='';$('page').textContent='';
+    $('prev').disabled=true;$('next').disabled=true;
+    return;
+  }
   const sort=$('sort').value;
   if(sort==='middle')filtered.sort((a,b)=>collator.compare(a.middle,b.middle)||collator.compare(a.name,b.name));
   if(sort==='low'||sort==='high')filtered.sort((a,b)=>{const x=tonPrice(a),y=tonPrice(b);return x===null?(y===null?0:1):y===null?-1:(x-y)*(sort==='low'?1:-1);});
